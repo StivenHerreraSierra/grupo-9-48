@@ -28,3 +28,17 @@ body {
 a {
     cursor: pointer;
 }
+
+#btninitest,
+#btninilog{
+    margin-top: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+    display: inline-block;
+    vertical-align: top;
+    width: 25%;
+} 
+
+#boxini{
+    margin-top: 10%;
+}
