@@ -5,32 +5,53 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <body>
-    <!--Inicio del menú-->
+    <!--Inicio del lateral-->
     <aside>
-        <!--Inicio información del usuario-->
-        <div>
-            <img src="../resources/images/userimage.png" alt="User image" title="User image">
-            <span>User name</span>
+        <nav class="navbar navbar-dark bg-dark" id="menu-btn">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false">
+                    <span class="navbar-toggler-icon menu-icon"></span>
+                </button>
+            </div>
+        </nav>
+
+        <!--Inicio del menú-->
+        <div class="collapse collapse-horizontal flex-column w-25 bg-dark p-3 text-white position-absolute" id="menu">
+            <!--Inicio información del usuario-->
+            <div class="text-center">
+                <img src="../resources/images/userimage.png" alt="User image" title="User image">
+                <span class="fs-2 align-middle">User name</span>
+            </div>
+            <!--Fin información del usuario-->
+            <hr>
+
+            <!--Inicio opciones del menú-->
+            <div class="options">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-dark list-group-action active">Uploaded documents</a>
+
+                    <a href="#" class="list-group-item list-group-item-dark list-group-action">Upload document</a>
+
+                    <a href="#" class="list-group-item list-group-item-dark list-group-action">Settings</a>
+                </div>
+
+                <div class="rounded-3 mt-5">
+                    <a href="#" class="list-group-item list-group-item-dark list-group-action d-flex justify-content-between align-items-center">Log out<img src="../resources/images/exit.png"></a>
+                </div>
+            </div>
+            <!--Fin opciones del menú-->
         </div>
-        <!--Fin información del usuario-->
-        <hr>
-
-        <!--Inicio opciones del menú-->
-        <div>
-            <a href="#">Uploaded documents</a>
-
-            <a href="#">Upload document</a>
-
-            <a href="#">Settings</a>
-
-            <a href="#">Log out<img src="../resources/images/exit.png"></a>
-        </div>
-        <!--Fin opciones del menú-->
+        <!--Fin del menú-->
     </aside>
-    <!--Fin del menú-->
+    <!--Inicio del lateral-->
+
+    <section>
+        
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
