@@ -1,4 +1,4 @@
-#document-container {
+#document-container, .target {
     background-color: dimgrey;
     padding: 10px;    
 }
