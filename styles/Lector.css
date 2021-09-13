@@ -1,0 +1,11 @@
+#cabecera {
+    background-color: dimgrey;
+}
+#contenedorBuscador{
+    background-color: dimgrey;
+    color: white;    
+}
+
+#imagenBuscador{
+    border-radius: 50%;
+}
