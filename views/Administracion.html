@@ -11,7 +11,7 @@
 </head>
 <body class="contenedor">
     <!--Inicio del lateral-->
-    <aside>
+    <aside class="fixed-top">
         <nav style="z-index: 10;" class="navbar navbar-dark bg-dark" id="menu-btn">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false">
@@ -51,7 +51,7 @@
     <!--Inicio del lateral-->
 
     <!--Inicio del contenido principal-->
-    <section class="container-fluid p-4">
+    <section class="container-fluid p-4 mt-5">
         <h1 class="fs-1 titulo-principal">Your documents</h1>
 
         <!--Inicio de la sección para últimos documentos abiertos-->
@@ -65,7 +65,7 @@
             <div class="container-fluid d-flex flex-nowrap">
 
                 <!--Inicio primer tarjeta-->
-                <div class="tarjeta">
+                <div class="tarjeta shadow">
                     <div class="img-background">
                         <img src="../resources/images/text.jpg" alt="Document" style>
                     </div>
@@ -152,22 +152,95 @@
             </div>
 
             <!--Inicio del buscador-->
-            <div>
-                <input type="text" name="document-browser" id="document-browser" placeholder="Document title...">
-                <button>
-                    <img width="20" src="../resources/images/search.svg" alt="Search">
-                </button>
-            </div>
+            <div class="bg-white rounded-3 w-25 m-3 ms-auto">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="document-browser" id="document-browser" placeholder="Document title...">
+                    <button type="button" class="btn btn-outline-secondary">
+                        <img width="20" src="../resources/images/search.svg" alt="Search">
+                    </button>
+                </div>
+            </div><br>
             <!--Fin del buscador-->
 
             <!--Inicio cuadrícula con los documentos-->
-            <div>
-                <div>
-                    <h4>Title</h4>
+            <div class="container-fluid flex-grid">
+                <!--Inicio primer tarjeta-->
+                <div class="tarjeta-grid shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
                 </div>
+                <!--Inicio primer tarjeta-->
                 
-                <div>
-                    <button>
+                <!--Inicio segunda tarjeta-->
+                <div class="tarjeta-grid shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin segunda tarjeta-->
+
+                <!--Inicio tercer tarjeta-->
+                <div class="tarjeta-grid shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin tercer tarjeta-->
+
+                <!--Inicio cuarta tarjeta-->
+                <div class="tarjeta-grid shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin cuarta tarjeta-->
+
+                <!--Inicio quinta tarjeta-->
+                <div class="tarjeta-grid shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin quinta tarjeta-->
+
+                <div class="tarjeta-grid shadow">
+                    <button class="add-btn" title="Add document">
                         <img width="70px" src="../resources/images/add.svg" alt="Add">
                     </button>
                 </div>
