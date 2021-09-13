@@ -12,25 +12,50 @@
 </head>
 
 <body>
-    <div class="container" id="document-container">
-        <h5>Documents</h5>
-        <div class="row g-2">
-            <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 1" readonly></div>
-            <div class="col-3 btn-group">
-                <button type="button" class="btn btn-primary">Rename</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-            <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 2" readonly></div>
-            <div class="col-3 btn-group">
-                <button type="button" class="btn btn-primary">Rename</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
-            <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 3" readonly></div>
-            <div class="col-3 btn-group">
-                <button type="button" class="btn btn-primary">Rename</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+    <!--Inicio del contenido principal-->
+    <section>
+        <h1>Settings</h1>
+
+        <!--Inicio de información personal-->
+        <div>
+            <h5>User</h5>
+            
+            <div>
+                <div>
+                    <img src="../resources/images/userimage.png" alt="Image">
+                    <button type="button">Change image</button>
+                </div>
+
+                <div>
+                    <input type="text" name="username" id="username">
+                    <button type="button">Edit name</button>
+                </div>
             </div>
         </div>
+        <!--Fin de información personal-->
+
+        <div class="container" id="document-container">
+            <h5>Documents</h5>
+            <div class="row g-2">
+                <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 1" readonly></div>
+                <div class="col-3 btn-group">
+                    <button type="button" class="btn btn-primary">Rename</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 2" readonly></div>
+                <div class="col-3 btn-group">
+                    <button type="button" class="btn btn-primary">Rename</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="col-9"><input type="text" class="txt-document form-control" value="Documento 3" readonly></div>
+                <div class="col-3 btn-group">
+                    <button type="button" class="btn btn-primary">Rename</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Fin del contenido principal-->
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
