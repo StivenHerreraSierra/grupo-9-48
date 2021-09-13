@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
+    <link rel="stylesheet" href="../styles/Administracion.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
-<body>
+<body class="contenedor">
     <!--Inicio del lateral-->
     <aside>
-        <nav class="navbar navbar-dark bg-dark" id="menu-btn">
+        <nav style="z-index: 10;" class="navbar navbar-dark bg-dark" id="menu-btn">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu" aria-controls="menu" aria-expanded="false">
                     <span class="navbar-toggler-icon menu-icon"></span>
@@ -20,7 +21,7 @@
         </nav>
 
         <!--Inicio del menú-->
-        <div class="collapse collapse-horizontal flex-column w-25 bg-dark p-3 text-white position-absolute" id="menu">
+        <div style="z-index: 10;" class="collapse collapse-horizontal flex-column w-25 bg-dark p-3 text-white position-absolute" id="menu">
             <!--Inicio información del usuario-->
             <div class="text-center">
                 <img src="../resources/images/userimage.png" alt="User image" title="User image">
@@ -49,39 +50,117 @@
     </aside>
     <!--Inicio del lateral-->
 
-    <section>
-        <h1>Your documents</h1>
+    <!--Inicio del contenido principal-->
+    <section class="container-fluid p-4">
+        <h1 class="fs-1 titulo-principal">Your documents</h1>
 
-        <div>
-            <div>
+        <!--Inicio de la sección para últimos documentos abiertos-->
+        <div class="container-fluid mb-5">
+            <div class="d-flex flex-row justify-content-between cabecera">
                 <h3>Recents</h3>
-                <hr>
+                <hr class="separador">
             </div>
 
-            <div>
-                <div>
-                    <h4>Title</h4>
-                    <div>
-                        <span>Last open</span>
-                        <span>Today at 14:00</span>
+            <!--Inicio cuadrícula con los documentos-->
+            <div class="container-fluid d-flex flex-nowrap">
+
+                <!--Inicio primer tarjeta-->
+                <div class="tarjeta">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
                     </div>
                 </div>
+                <!--Inicio primer tarjeta-->
+
+                <!--Inicio segunda tarjeta-->
+                <div class="tarjeta shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin segunda tarjeta-->
+
+                <!--Inicio tercer tarjeta-->
+                <div class="tarjeta shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin tercer tarjeta-->
+
+                <!--Inicio cuarta tarjeta-->
+                <div class="tarjeta shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin cuarta tarjeta-->
+
+                <!--Inicio quinta tarjeta-->
+                <div class="tarjeta shadow">
+                    <div class="img-background">
+                        <img src="../resources/images/text.jpg" alt="Document" style>
+                    </div>
+
+                    <div class="info-documento">
+                        <h4 class="card-title">Title</h4>
+                        <div>
+                            <span>Last open<br>Today at 14:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!--Fin quinta tarjeta-->
+
             </div>
+            <!--Inicio cuadrícula con los documentos-->
         </div>
+        <!--Fin de la sección para últimos documentos abiertos-->
 
-        <div>
-            <div>
+        <!--Inicio de la sección de todos los documentos cargados-->
+        <div class="container-fluid">
+            <div class="d-flex flex-row justify-content-between cabecera">
                 <h3>All</h3>
-                <hr>
+                <hr class="separador">
             </div>
 
+            <!--Inicio del buscador-->
             <div>
                 <input type="text" name="document-browser" id="document-browser" placeholder="Document title...">
                 <button>
                     <img width="20" src="../resources/images/search.svg" alt="Search">
                 </button>
             </div>
+            <!--Fin del buscador-->
 
+            <!--Inicio cuadrícula con los documentos-->
             <div>
                 <div>
                     <h4>Title</h4>
@@ -93,8 +172,11 @@
                     </button>
                 </div>
             </div>
+            <!--Fin cuadrícula con los documentos-->
         </div>
+        <!--Fin de la sección de todos los documentos cargados-->
     </section>
+    <!--Fin del contenido principal-->
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
