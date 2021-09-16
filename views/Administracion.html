@@ -35,7 +35,7 @@
                 <div class="list-group">
                     <a href="Administracion.html" class="list-group-item list-group-item-dark list-group-action active">Uploaded documents</a>
 
-                    <a href="#" class="list-group-item list-group-item-dark list-group-action">Upload document</a>
+                    <a href="#file-btn" class="list-group-item list-group-item-dark list-group-action">Upload document</a>
 
                     <a href="AdministracionDocumentos.html" class="list-group-item list-group-item-dark list-group-action">Settings</a>
                 </div>
@@ -240,9 +240,10 @@
                 <!--Fin quinta tarjeta-->
 
                 <div class="tarjeta-grid shadow">
-                    <button class="add-btn" title="Add document">
+                    <input type="file" name="" id="file-btn" accept="application/pdf">
+                    <div class="d-flex flex-column justify-content-center align-items-center add-btn" title="Add document">
                         <img width="70px" src="../resources/images/add.svg" alt="Add">
-                    </button>
+                    </div>
                 </div>
             </div>
             <!--Fin cuadrícula con los documentos-->
