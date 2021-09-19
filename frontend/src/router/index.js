@@ -33,6 +33,11 @@ const routes = [
     name: 'Admin panel',
     component: () => import('../views/AdminPanel.vue')
   },
+  {
+    path: '/user/settings',
+    name: 'Settings panel',
+    component: () => import('../views/Ajustes.vue')
+  },
 ]
 
 const router = new VueRouter({
