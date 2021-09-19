@@ -1,15 +1,47 @@
 <template>
-  <hello-world />
+  <Background>
+    <v-container
+      fluid
+      class="d-flex flex-column align-center"
+      id="home-container"
+    >
+      <v-row>
+        <v-col cols="12" class="d-flex justify-center align-center">
+          <v-sheet
+            class="d-flex justify-center align-center mb-10"
+            color="black"
+            dark
+            elevation="1"
+            height="100"
+            width="300"
+            ><h2>Welcome</h2></v-sheet
+          ></v-col
+        >
+        <v-col cols="6" class="d-flex justify-start align-center">
+          <v-btn block color="secondary" to="/login" >Sign in</v-btn>
+        </v-col>        
+        <v-col cols="6" class="d-flex justify-end align-center">
+          <v-btn block color="secondary">Test it!</v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+  </Background>
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+import Background from "../components/Background.vue";
 
-  export default {
-    name: 'Home',
+export default {
+  name: "Home",
 
-    components: {
-      HelloWorld,
-    },
-  }
+  components: {
+    Background,
+  },
+};
 </script>
+
+<style scope>
+#home-container {
+  margin-top: 10%;
+}
+</style>
