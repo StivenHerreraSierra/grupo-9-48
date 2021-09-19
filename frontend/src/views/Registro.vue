@@ -1,13 +1,17 @@
 <template>
-  <Formulario :text="value" v-on:submit="showReply"></Formulario>
+  <Background>
+    <Formulario :text="value" v-on:submit="showReply"></Formulario>
+  </Background>
 </template>
 
 <script>
-import Formulario from '../components/Formulario.vue'
+import Formulario from "../components/Formulario.vue";
+import Background from "../components/Background.vue";
 
 export default {
   components: {
     Formulario,
+    Background,
   },
   data() {
     return {
@@ -18,16 +22,15 @@ export default {
         path: "/login",
         link_text: "Sign in here!",
       },
-    }
+    };
   },
-  methods:{
+  methods: {
     showReply(value) {
       console.log(value);
     },
-  }
+  },
 };
 </script>
 
 <style>
-
 </style>
