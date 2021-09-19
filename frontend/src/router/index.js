@@ -28,6 +28,11 @@ const routes = [
     name: 'Sign Up',
     component: () => import('../views/Registro.vue')
   },
+  {
+    path: '/user/admin',
+    name: 'Admin panel',
+    component: () => import('../views/AdminPanel.vue')
+  },
 ]
 
 const router = new VueRouter({
