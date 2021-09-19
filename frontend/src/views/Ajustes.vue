@@ -1,5 +1,5 @@
 <template>
-    <Menu :content="menu_content"></Menu>
+  <Menu :content="menu_content"></Menu>
 </template>
 
 <script>
@@ -18,9 +18,21 @@ export default {
           name: "User",
         },
         items: [
-          { title: "Uploaded documents", icon: "mdi-file", path: "/user/settings" },
-          { title: "Upload document", icon: "mdi-upload", path: "/user/settings" },
-          { title: "Settings", icon: "mdi-cog-outline", path: "/user/settings" },
+          {
+            title: "Uploaded documents",
+            icon: "mdi-file",
+            path: "/user/admin",
+          },
+          {
+            title: "Upload document",
+            icon: "mdi-upload",
+            path: "/user/admin",
+          },
+          {
+            title: "Admin panel",
+            icon: "mdi-view-dashboard-outline",
+            path: "/user/admin",
+          },
         ],
       },
     };
