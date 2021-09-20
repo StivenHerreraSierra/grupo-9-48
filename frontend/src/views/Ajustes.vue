@@ -1,13 +1,30 @@
 <template>
-  <Menu :content="menu_content"></Menu>
+  <v-container fluid id="account">
+    <Menu :content="menu_content"></Menu>
+    <v-container>
+      <h1>Settings</h1>
+      <v-container fluid class="mb-5 rounded-3" id="settings-container">
+        <h3 class="text-center">User</h3>
+        <hr />
+        <user-settings />
+      </v-container>
+      <v-container fluid class="mb-5 rounded-3" id="settings-container">
+        <h3>Documents</h3>
+        <document-edit />
+      </v-container>
+    </v-container>
+  </v-container>
 </template>
 
 <script>
 import Menu from "../components/Menu.vue";
-
+import DocumentEdit from "../components/DocumentEdit.vue";
+import UserSettings from "../components/UserSettings.vue";
 export default {
   components: {
     Menu,
+    UserSettings,
+    DocumentEdit,
   },
   data() {
     return {
@@ -40,5 +57,15 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
+#account {
+  background-color: #343a40;
+}
+h1 {
+  color: white;
+}
+#settings-container {
+  background-color: dimgrey;
+  border-radius: 10px;
+}
 </style>
