@@ -1,5 +1,8 @@
 <template>
+  <v-container>
     <Menu :content="menu_content"></Menu>
+    <v-container><h1>Panel Admin</h1></v-container>
+  </v-container>
 </template>
 
 <script>
@@ -18,9 +21,21 @@ export default {
           name: "User",
         },
         items: [
-          { title: "Uploaded documents", icon: "mdi-file", path: "/user/settings" },
-          { title: "Upload document", icon: "mdi-upload", path: "/user/settings" },
-          { title: "Settings", icon: "mdi-cog-outline", path: "/user/settings" },
+          {
+            title: "Uploaded documents",
+            icon: "mdi-file",
+            path: "/user/settings",
+          },
+          {
+            title: "Upload document",
+            icon: "mdi-upload",
+            path: "/user/settings",
+          },
+          {
+            title: "Settings",
+            icon: "mdi-cog-outline",
+            path: "/user/settings",
+          },
         ],
       },
     };

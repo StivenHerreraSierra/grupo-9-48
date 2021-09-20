@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent dark>
+  <v-navigation-drawer app v-model="drawer" :mini-variant.sync="mini" permanent dark>
     <v-list-item class="px-2">
       <v-list-item-avatar>
         <v-img :src="content.user.image"></v-img>
