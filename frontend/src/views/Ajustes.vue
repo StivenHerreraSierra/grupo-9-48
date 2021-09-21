@@ -60,6 +60,7 @@ export default {
 <style scope>
 #account {
   background-color: #343a40;
+  height: 100%;
 }
 h1 {
   color: white;
