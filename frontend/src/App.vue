@@ -15,9 +15,9 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text>
+      <router-link  class="text-decoration-none white--text font-weight-black" to="/about" exact>
         <span class="mr-2">About us</span>
-      </v-btn>
+      </router-link>
     </v-app-bar>
 
     <v-main>
