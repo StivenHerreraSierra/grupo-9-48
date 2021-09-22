@@ -7,7 +7,7 @@
         height="200"
         width="200"
         class="mb-3"
-      />
+      ></v-img>
       <v-btn rounded small>
         <v-icon left> mdi-camera </v-icon>Change image</v-btn
       >

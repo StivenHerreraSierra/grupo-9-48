@@ -31,6 +31,20 @@ const routes = [
     component: () => import('../views/Ajustes.vue')
   },
   {
+    path: '/demo',
+    name: 'Demo URL',
+    component: () => import('../views/DemoURL.vue')
+  },
+  {
+    path: '/demo/reader',
+    name: 'Demo reader',
+    component: () => import('../views/Lector.vue')
+  },
+  {
+    path: '/user/reader',
+    name: 'Document reader',
+    component: () => import('../views/Lector.vue')
+  },
     path: '/about',
     name: 'About us',
     component: () => import('../views/AcercaDe.vue')

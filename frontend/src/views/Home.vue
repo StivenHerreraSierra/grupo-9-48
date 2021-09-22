@@ -2,7 +2,7 @@
   <Background>
     <v-container
       fluid
-      class="d-flex flex-column align-center"
+      class="d-flex flex-column align-center ma-15 pa-10"
       id="home-container"
     >
       <v-row>
@@ -18,10 +18,10 @@
           ></v-col
         >
         <v-col cols="6" class="d-flex justify-start align-center">
-          <v-btn block color="secondary" to="/login" >Sign in</v-btn>
-        </v-col>        
+          <v-btn block color="secondary" :to="loginPath">Sign in</v-btn>
+        </v-col>
         <v-col cols="6" class="d-flex justify-end align-center">
-          <v-btn block color="secondary">Test it!</v-btn>
+          <v-btn block color="secondary" :to="demoPath">Test it!</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -37,11 +37,14 @@ export default {
   components: {
     Background,
   },
+  data() {
+    return {
+      loginPath: "/login",
+      demoPath: "/demo",
+    };
+  },  
 };
 </script>
 
 <style scope>
-#home-container {
-  margin-top: 10%;
-}
 </style>
