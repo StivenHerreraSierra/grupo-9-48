@@ -1,9 +1,0 @@
-#document-container, .target {
-    background-color: dimgrey;
-    padding: 10px;    
-}
-
-.txt-document[readonly]{
-    background-color: rgb(48, 41, 41);    
-    color: white;
-}
