@@ -45,6 +45,7 @@ const routes = [
     name: 'Document reader',
     component: () => import('../views/Lector.vue')
   },
+  {
     path: '/about',
     name: 'About us',
     component: () => import('../views/AcercaDe.vue')
