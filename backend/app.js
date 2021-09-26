@@ -19,7 +19,6 @@ mongoose.connect(process.env.DB_URI)
 .then(() => console.log("Conexión exitosa"))
 .catch(err => console.error(err));
 
-
 //Iniciar el servidor
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Puerto: ${port}`));
