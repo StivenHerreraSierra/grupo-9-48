@@ -15,4 +15,7 @@ router.delete("/users/:username", UsersController.delete);
 //Diciccionario
 router.use("/dictionary/:word", Dictionary.search);
 
+//Documento
+
+
 module.exports = router;
