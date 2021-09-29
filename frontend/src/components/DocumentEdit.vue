@@ -8,8 +8,8 @@
           color="white"
           dark
           background-color="rgb(48, 41, 41)"
-          value="Documento 1"
-          hide-details
+          :value="documentName"
+          hide-details          
         ></v-text-field>
       </v-col>
       <v-col cols="2" class="d-flex justify-center align-self-center">
@@ -21,7 +21,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    documentName: String
+  }
+};
 </script>
 
 <style scope>

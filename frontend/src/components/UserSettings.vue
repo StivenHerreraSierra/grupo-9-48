@@ -19,6 +19,8 @@
           outlined
           color="black"
           background-color="white"
+          readonly
+          :value="username"
         ></v-text-field>
         <v-container fluid class="d-flex justify-space-between">
           <v-btn small color="primary">
@@ -34,7 +36,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    username: String
+  }
+};
 </script>
 
 <style scope>

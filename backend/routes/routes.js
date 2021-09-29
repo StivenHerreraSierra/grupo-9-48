@@ -33,7 +33,7 @@ const upload = multer({ storage: storage });
 
 //Usuario
 router.get("/users", UsersController.getAll);
-router.get("/users/:username", UsersController.getById);
+router.get("/users/:username", UsersController.getByUsername);
 router.post("/users", UsersController.insert);
 router.put("/users/:username", UsersController.update);
 router.delete("/users/:username", UsersController.delete);

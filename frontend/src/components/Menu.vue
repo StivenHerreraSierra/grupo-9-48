@@ -28,8 +28,8 @@
 
     <template v-slot:append>
         <div class="pa-2">
-          <v-icon large v-if="mini">mdi-exit-to-app</v-icon>
-          <v-btn block v-if="!mini">
+          <v-icon large >mdi-exit-to-app</v-icon>
+          <v-btn block>
             Exit
           </v-btn>
         </div>

@@ -6,11 +6,13 @@
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3 class="text-center">User</h3>
         <hr />
-        <user-settings />
+        <UserSettings :username="user.username"></UserSettings>
       </v-container>
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3>Documents</h3>
-        <document-edit />
+        <div v-for="document in user.documents" :key="document.title">
+          <DocumentEdit :documentName="document.title"></DocumentEdit>
+        </div>
       </v-container>
     </v-container>
   </v-container>
@@ -20,6 +22,9 @@
 import Menu from "../components/Menu.vue";
 import DocumentEdit from "../components/DocumentEdit.vue";
 import UserSettings from "../components/UserSettings.vue";
+
+import { getUser } from "../services/User.service";
+
 export default {
   components: {
     Menu,
@@ -52,7 +57,17 @@ export default {
           },
         ],
       },
+      user: {},
     };
+  },
+  mounted() {
+    const username = "Stiven_123";
+    getUser(username)
+      .then((response) => {
+        this.user = response.data;
+        console.log(this.user);
+      })
+      .catch((err) => console.error(err));
   },
 };
 </script>
