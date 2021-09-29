@@ -8,7 +8,6 @@
       lazy-validation
       class="d-flex flex-column justify-space-between"
       id="form"
-      @submit.prevent="submit"
     >
       <div>
         <v-text-field
@@ -38,7 +37,7 @@
       </div>
 
       <div>
-        <v-btn bottom block id="btn" depressed color="primary" type="submit"> {{ text.button_label }} </v-btn>
+        <v-btn bottom block id="btn" depressed color="primary" @click="sendInputs"> {{ text.button_label }} </v-btn>
         <p class="white--text">
           {{ text.redirect_label }}
           <RouterLink :to="text.path">{{ text.link_text }}</RouterLink>
@@ -78,17 +77,19 @@ export default {
     };
   },
   methods: {
-    submit() {
+    sendInputs() {
       this.valid = this.checkForm();
 
       if(!this.valid) return;
 
-      const input = {
-        name: this.name,
+      const user = {
+        username: this.name,
         password: this.password,
       }
 
-      this.$emit("submit", input)
+      console.log("Ingresado:", user.user);
+
+      this.$emit("submit", user);
     },
     checkForm() {
       if(this.name && this.password && this.name.length >= 5 && this.password.length >= 5) {
