@@ -13,7 +13,7 @@ module.exports = class UsersController {
 
     }
 
-    static async getById(req, res) {
+    static async getByUsername(req, res) {
 
         const username = req.params.username;
 
