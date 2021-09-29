@@ -1,12 +1,13 @@
 <template>
   <Background>
-    <Formulario :text="value" v-on:submit="showReply"></Formulario>
+    <Formulario :text="value" v-on:submit="login"></Formulario>
   </Background>
 </template>
 
 <script>
 import Formulario from '../components/Formulario.vue';
 import Background from '../components/Background.vue';
+import { getUser } from '../services/User.service';
 
 export default {
   components: {
@@ -25,8 +26,13 @@ export default {
     }
   },
   methods:{
-    showReply(value) {
-      console.log(value);
+    login(user) {
+      console.log(user);
+      getUser()
+        .then((response) => {
+          console.log(response.data);
+         }
+        );
     },
   }
 };
