@@ -7,7 +7,13 @@
           <iframe :src="documentURL" width="100%" height="100%"></iframe>
         </v-col>
         <v-col cols="3">
-          <v-form class="my-2 d-flex align-center">
+          <v-form
+            class="my-2 d-flex align-center"
+            @submit.prevent
+            lazy-validation
+            v-model="valid"
+            ref="form"
+          >
             <v-text-field
               dense
               outlined
@@ -15,25 +21,28 @@
               hide-details
               placeholder="Search word"
               color="black"
+              v-model="input"
+              required
             ></v-text-field>
-            <v-btn height="40" class="pa-0" depressed color="primary">
+            <v-btn
+              height="40"
+              class="pa-0"
+              depressed
+              color="primary"
+              @click="search"
+            >
               <v-icon center> mdi-magnify </v-icon></v-btn
             >
           </v-form>
+          <h2 class="white--text text-capitalize">{{ word }}</h2>
           <v-img
             width="auto"
             height="auto"
-            src="https://picsum.photos/350/165?random"
+            :src="wordImage"
+            v-if="wordImage"
           ></v-img>
           <p class="my-2" id="contenedorBuscador">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Necessitatibus sed maxime natus non quibusdam alias ullam numquam
-            placeat dolores aliquam error consectetur, doloribus, est sit
-            deserunt earum autem repudiandae eius. Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Illum veritatis quae harum nihil
-            adipisci officiis. Voluptas quasi provident voluptate, facere cum
-            commodi velit. Quasi similique soluta laudantium aliquam pariatur
-            illo!
+            {{ meaning }}
           </p>
         </v-col>
       </v-row>
@@ -43,6 +52,7 @@
 
 <script>
 import Menu from "../components/Menu.vue";
+import { getDefinition } from "../services/Dictionary.service";
 
 export default {
   components: {
@@ -50,6 +60,7 @@ export default {
   },
   data() {
     return {
+      valid: true,
       menu_content: {
         user: {
           image:
@@ -76,6 +87,10 @@ export default {
       },
       isUser: this.$route.path.includes("user"),
       documentURL: "",
+      input: "",
+      word: "",
+      wordImage: "",
+      meaning: "",
     };
   },
   mounted() {
@@ -85,6 +100,25 @@ export default {
       this.documentURL = localStorage.getItem("demoURL");
       localStorage.removeItem("demoURL");
     }
+  },
+  methods: {
+    search() {
+      if(!this.input) {
+        console.error("Input is empty.");
+        return;
+      }
+
+      this.word = this.input;
+      getDefinition(this.input)
+        .then((response) => {
+          const definitions = response.data.definitions;
+          this.wordImage = definitions[0].image_url;
+          this.meaning = definitions[0].definition;
+        })
+        .catch((err) => {
+          this.meaning = err;
+        });
+    },
   },
 };
 </script>
@@ -100,5 +134,8 @@ export default {
 #contenedorBuscador {
   color: white;
   text-align: justify;
+}
+#contenedorBuscador::first-letter {
+  text-transform: capitalize;
 }
 </style>
