@@ -2,6 +2,7 @@ const express = require("express");
 
 const UsersController = require("../controller/usersController");
 const Dictionary = require("../controller/dictionaryController");
+const DocumentsController = require("../controller/documentController");
 
 const router = express.Router();
 
@@ -52,6 +53,6 @@ router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
 router.use("/dictionary/:word", Dictionary.search);
 
 //Documento
-
+router.use("/user/documents/:username", DocumentsController.getAll);
 
 module.exports = router;

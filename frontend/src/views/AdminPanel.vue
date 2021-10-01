@@ -11,7 +11,7 @@
         </v-layout>
 
         <v-row>
-          <v-col v-for="n in 5" :key="n">
+          <v-col v-for="document in documents" :key="document.title">
             <Card :document="document"></Card>
           </v-col>
         </v-row>
@@ -41,7 +41,7 @@
         </v-row>
 
         <v-row>
-          <v-col v-for="n in 24" :key="n" cols="3">
+          <v-col v-for="document in documents" :key="document.title" cols="3">
             <Card :document="document"></Card>
           </v-col>
         </v-row>
@@ -53,6 +53,7 @@
 <script>
 import Menu from "../components/Menu.vue";
 import Card from "../components/Card.vue";
+import { getAllDocuments } from "../services/Document.service"
 
 export default {
   components: {
@@ -86,11 +87,7 @@ export default {
         ],
       },
 
-      document: {
-        image: "https://www.dliflc.edu/wp-content/uploads/2018/11/book.jpg",
-        title: "Document",
-        last_open: "Today",
-      },
+      documents: [],
 
       searched_title: "",
       marker: true,
@@ -104,6 +101,11 @@ export default {
       this.searched_title = "";
     },
   },
+  mounted() {
+    getAllDocuments("Tomas00_")
+      .then((response) => this.documents = response.data)
+      .catch((err) => console.log(err));
+  }
 };
 </script>
 

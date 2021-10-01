@@ -1,7 +1,7 @@
 <template>
 <v-hover v-slot="{ hover }">
   <v-card class="mx-auto" color="grey lighten-4" max-width="600" height="250px">
-    <v-img :aspect-ratio="16 / 9" :src="document.image" height="250px">
+    <v-img :aspect-ratio="16 / 9" src="../assets/image/github.png" height="250px">
       <v-expand-transition>
         <div
           v-if="hover"
@@ -20,7 +20,7 @@
           style="height: 100%;"
         >
           <p class="text-h6">{{ document.title }}</p>
-          <p>Last open<br />{{ document.last_open }}</p>
+          <p>Last open<br />{{ document.lastOpenDay }}</p>
         </div>
       </v-expand-transition>
     </v-img>
@@ -33,6 +33,11 @@ export default {
   props: {
     document: Object,
   },
+  data() {
+    return {
+      hover: false,
+    }
+  }
 };
 </script>
 
