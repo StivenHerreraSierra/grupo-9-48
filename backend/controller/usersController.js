@@ -35,8 +35,16 @@ module.exports = class UsersController {
 
         try {
             const user = req.body;
-            const Newuser = await usersModel.create(user);
-            res.status(201).json(Newuser);
+
+            let Newuser = await usersModel.findOne({ "username": user.username });
+
+            if (Newuser != null) {
+                res.status(403).json({ "message": `${user.username} is already in use` });
+            } else {
+                Newuser = await usersModel.create(user);
+                res.status(201).json({"username": user.username});                
+            }
+
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
@@ -62,6 +70,28 @@ module.exports = class UsersController {
             const username = req.params.username;
             await usersModel.deleteOne({ "username": username });
             res.status(200).json();
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    }
+
+    static async validateUser(req, res) {
+
+        try {
+            const userCredentials = req.body;
+            let user = await usersModel.findOne({ "username": userCredentials.username });
+
+            if (user != null) {
+                if (userCredentials.password == user.password) {                    
+                    res.status(200).json({"username": user.username});
+                } else {
+                    res.status(403).json({ "message": "Wrong password" });
+                }
+
+            } else {
+                res.status(400).json({ "message": "Wrong credentials" });
+            }
+
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

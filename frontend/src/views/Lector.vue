@@ -85,7 +85,7 @@ export default {
           },
         ],
       },
-      isUser: this.$route.path.includes("user"),
+      isUser: false,
       documentURL: "",
       input: "",
       word: "",
@@ -94,16 +94,16 @@ export default {
     };
   },
   mounted() {
+    this.isUser = sessionStorage.getItem("username") != null ? true : false;
     if (this.isUser) {
       this.documentURL = "http://www.africau.edu/images/default/sample.pdf";
     } else {
-      this.documentURL = localStorage.getItem("demoURL");
-      localStorage.removeItem("demoURL");
+      this.documentURL = sessionStorage.getItem("demoURL");
     }
   },
   methods: {
     search() {
-      if(!this.input) {
+      if (!this.input) {
         console.error("Input is empty.");
         return;
       }
@@ -120,6 +120,11 @@ export default {
         });
     },
   },
+  beforeRouteEnter(to, from, next) {
+    if (to.path.includes("user") && sessionStorage.getItem("username") == null)
+      next("/404");
+    else next();
+  },  
 };
 </script>
 

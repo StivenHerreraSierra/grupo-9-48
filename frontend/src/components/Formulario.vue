@@ -37,7 +37,16 @@
       </div>
 
       <div>
-        <v-btn bottom block id="btn" depressed color="primary" @click="sendInputs"> {{ text.button_label }} </v-btn>
+        <v-btn
+          bottom
+          block
+          id="btn"
+          depressed
+          color="primary"
+          @click="sendInputs"
+        >
+          {{ text.button_label }}
+        </v-btn>
         <p class="white--text">
           {{ text.redirect_label }}
           <RouterLink :to="text.path">{{ text.link_text }}</RouterLink>
@@ -50,7 +59,7 @@
 </template>
 
 <script>
-import Snackbar from './Snackbar.vue'
+import Snackbar from "./Snackbar.vue";
 
 export default {
   components: {
@@ -80,30 +89,44 @@ export default {
     sendInputs() {
       this.valid = this.checkForm();
 
-      if(!this.valid) return;
+      if (!this.valid) return;
 
       const user = {
         username: this.name,
         password: this.password,
-      }
-
-      console.log("Ingresado:", user.user);
+      };
 
       this.$emit("submit", user);
+
+      setTimeout(() => {
+        if (this.text.errorMessage != null) {
+          this.snack_text.text = this.text.errorMessage;
+          this.snack_text.snackbar = true;
+        }
+      }, 1000);
     },
     checkForm() {
-      if(this.name && this.password && this.name.length >= 5 && this.password.length >= 5) {
+      if (
+        this.name &&
+        this.password &&
+        this.name.length >= 5 &&
+        this.password.length >= 5
+      ) {
         return true;
       }
 
-      if(!this.name) this.snack_text.text = "Username is required.";
-      else if(!this.password) this.snack_text.text = "Password is required.";
-      else if(this.name.length < 5) this.snack_text.text = "The username must be at least 5 characters long.";
-      else if(this.password.length < 5) this.snack_text.text = "The password must be at least 5 characters long.";
+      if (!this.name) this.snack_text.text = "Username is required.";
+      else if (!this.password) this.snack_text.text = "Password is required.";
+      else if (this.name.length < 5)
+        this.snack_text.text =
+          "The username must be at least 5 characters long.";
+      else if (this.password.length < 5)
+        this.snack_text.text =
+          "The password must be at least 5 characters long.";
 
       this.snack_text.snackbar = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

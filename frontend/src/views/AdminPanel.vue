@@ -104,6 +104,10 @@ export default {
       this.searched_title = "";
     },
   },
+  beforeRouteEnter(to, from, next) {
+    if (sessionStorage.getItem("username") == null) next("/404");
+    else next();
+  },  
 };
 </script>
 

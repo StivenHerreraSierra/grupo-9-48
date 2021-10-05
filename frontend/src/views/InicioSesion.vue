@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Formulario from '../components/Formulario.vue';
-import Background from '../components/Background.vue';
-import { getUser } from '../services/User.service';
+import Formulario from "../components/Formulario.vue";
+import Background from "../components/Background.vue";
+import { validateUser } from "../services/User.service";
 
 export default {
   components: {
@@ -22,22 +22,25 @@ export default {
         redirect_label: "Still not registered?",
         path: "/signup",
         link_text: "Do it here!",
+        errorMessage: "",
       },
-    }
+    };
   },
-  methods:{
+  methods: {
     login(user) {
-      console.log(user);
-      getUser()
-        .then((response) => {
-          console.log(response.data);
-         }
-        );
+      validateUser(user)
+        .then(() => {
+          sessionStorage.setItem("username", user.username);
+          this.$router.push("/user/admin");
+        })
+        .catch((err) => (this.value.errorMessage = err.response.data.message));
     },
-  }
+  },
+  mounted() {
+    if (sessionStorage.getItem("username") != null) this.$router.go(1);
+  },
 };
 </script>
 
 <style>
-
 </style>

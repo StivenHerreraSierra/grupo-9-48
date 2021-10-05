@@ -50,6 +50,19 @@ const routes = [
     name: 'About us',
     component: () => import('../views/AcercaDe.vue')
   },
+  {
+    path: '/404',
+    name: 'Not Found',
+    component: () => import('../views/NotFoundPage.vue')
+  },
+  {
+    path: '/logout',
+    redirect: '/',
+  },  
+  {
+    path: '*',
+    redirect: '/404',
+  },
 ]
 
 const router = new VueRouter({
