@@ -38,6 +38,7 @@ router.get("/users/:username", UsersController.getByUsername);
 router.post("/users", UsersController.insert);
 router.put("/users/:username", UsersController.update);
 router.delete("/users/:username", UsersController.delete);
+router.post("/users/validation", UsersController.validateUser);
 router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
     userModel.updateOne(
         {"username": req.params.username},

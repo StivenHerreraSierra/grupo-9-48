@@ -105,7 +105,11 @@ export default {
     getAllDocuments("Tomas00_")
       .then((response) => this.documents = response.data)
       .catch((err) => console.log(err));
-  }
+  },
+  beforeRouteEnter(to, from, next) {
+    if (sessionStorage.getItem("username") == null) next("/404");
+    else next();
+  },
 };
 </script>
 

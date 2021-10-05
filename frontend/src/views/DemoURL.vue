@@ -50,18 +50,15 @@ export default {
     checkURL() {
       return this.url.length <= 0;
     },
-    saveURL() {
-      localStorage.setItem("demoURL", this.url);
-    },
-    checkPreviousURL() {
-      console.log(localStorage.getItem("demoURL"));
+    saveURL() {      
+      sessionStorage.setItem("demoURL", this.url);
     },
   },
-  mounted() {
-    let previousURL = localStorage.getItem("demoURL");
-    if (previousURL != null) {
-      localStorage.removeItem("demoURL");
-    }
+  beforeRouteEnter(to, from, next) {    
+    if (sessionStorage.getItem("demoURL") != null) {
+      sessionStorage.clear();
+      location.reload();      
+    } else next();
   },
 };
 </script>
