@@ -6,7 +6,7 @@
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3 class="text-center">User</h3>
         <hr />
-        <UserSettings :username="user.username"></UserSettings>
+        <UserSettings></UserSettings>
       </v-container>
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3>Documents</h3>
