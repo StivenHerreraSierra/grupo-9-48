@@ -61,14 +61,17 @@ export default {
     };
   },
   mounted() {
-    const username = "Stiven_123";
+    const username = sessionStorage.getItem("username");
     getUser(username)
       .then((response) => {
         this.user = response.data;
-        console.log(this.user);
       })
       .catch((err) => console.error(err));
   },
+  beforeRouteEnter(to, from, next) {
+    if (sessionStorage.getItem("username") == null) next("/404");
+    else next();
+  },  
 };
 </script>
 

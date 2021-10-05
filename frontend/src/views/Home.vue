@@ -43,6 +43,12 @@ export default {
       demoPath: "/demo",
     };
   },  
+  beforeMount() {
+    if (sessionStorage.getItem("username") != null) {
+    sessionStorage.clear();
+    location.reload();
+    }
+  },
 };
 </script>
 

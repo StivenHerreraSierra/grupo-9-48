@@ -29,7 +29,7 @@
     <template v-slot:append>
         <div class="pa-2">
           <v-icon large >mdi-exit-to-app</v-icon>
-          <v-btn block>
+          <v-btn block to="/logout">
             Exit
           </v-btn>
         </div>
@@ -50,7 +50,7 @@ export default {
         { title: "Users", icon: "mdi-account-group-outline" },
       ],
     };
-  },
+  },  
 };
 </script>
 
