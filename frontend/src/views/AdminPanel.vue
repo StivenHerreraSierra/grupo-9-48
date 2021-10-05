@@ -2,7 +2,7 @@
   <v-layout class="dark-background white--text">
     <Menu :content="menu_content"></Menu>
 
-    <v-container fluid>
+    <v-container fluid class="main-container">
       <h1>Your documents</h1>
       <v-container class="mb-6" fluid>
         <v-layout align-center justify-space-between>
@@ -102,7 +102,7 @@ export default {
     },
   },
   mounted() {
-    getAllDocuments("Tomas00_")
+    getAllDocuments(sessionStorage.getItem("username"))
       .then((response) => this.documents = response.data)
       .catch((err) => console.log(err));
   },
@@ -122,9 +122,9 @@ h2 {
   font-size: 28px !important;
   font-weight: normal;
 }
-.container {
+.main-container {
   margin: 0;
-  width: 100% !important;
+  min-height: calc(100vh - 40px);
 }
 .dark-background {
   background-color: #1c1f20;

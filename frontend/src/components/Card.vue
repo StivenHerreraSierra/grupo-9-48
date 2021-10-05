@@ -20,7 +20,7 @@
           style="height: 100%;"
         >
           <p class="text-h6">{{ document.title }}</p>
-          <p>Last open<br />{{ document.lastOpenDay }}</p>
+          <p>Last open<br />{{ formatedDate(document.lastOpenDate) }}</p>
         </div>
       </v-expand-transition>
     </v-img>
@@ -36,6 +36,11 @@ export default {
   data() {
     return {
       hover: false,
+    }
+  },
+  methods: {
+    formatedDate (date) {
+      return new Date(date).toLocaleString();
     }
   }
 };
