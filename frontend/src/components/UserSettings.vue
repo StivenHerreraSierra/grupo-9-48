@@ -3,13 +3,23 @@
     <v-col class="d-flex flex-column align-center" cols="3">
       <v-img
         id="userImage"
-        src="https://picsum.photos/350/165?random"
+        :src="userPicture"
         height="200"
         width="200"
         class="mb-3"
       ></v-img>
-      <v-btn rounded small>
-        <v-icon left> mdi-camera </v-icon>Change image</v-btn
+      <v-text-field
+        dense
+        outlined
+        color="black"
+        background-color="white"
+        v-if="!changeImgeBtn.flag"
+        v-model="userPicture"
+      >
+      </v-text-field>
+      <v-btn rounded small v-on:click="changeImage()">
+        <v-icon left> {{ changeImgeBtn.icon }} </v-icon
+        >{{ changeImgeBtn.title }}</v-btn
       >
     </v-col>
     <v-col class="d-flex flex-column align-center" cols="7">
@@ -19,14 +29,25 @@
           outlined
           color="black"
           background-color="white"
-          readonly
-          :value="username"
+          :readonly="usernameReadOnly"
+          v-model="userText"
+          :error-messages="errorMessage"
         ></v-text-field>
         <v-container fluid class="d-flex justify-space-between">
-          <v-btn small color="primary">
+          <v-btn
+            small
+            color="primary"
+            :disabled="usernameReadOnly"
+            v-on:click="sendUser()"
+          >
             <v-icon left> mdi-content-save </v-icon>Save</v-btn
           >
-          <v-btn small color="success">
+          <v-btn
+            small
+            color="success"
+            v-on:click="usernameReadOnly = !usernameReadOnly"
+            :disabled="!usernameReadOnly"
+          >
             <v-icon left> mdi-pencil </v-icon>Edit</v-btn
           ></v-container
         >
@@ -36,10 +57,59 @@
 </template>
 
 <script>
+import { getUser, updateUser } from "../services/User.service";
+
 export default {
-  props: {
-    username: String
-  }
+  data() {
+    return {
+      usernameReadOnly: true,
+      userText: "",
+      userPicture: "",
+      errorMessage: "",
+      changeImgeBtn: {
+        flag: true,
+        icon: "mdi-camera",
+        title: "Change image",
+      },
+    };
+  },
+  methods: {
+    sendUser() {
+      const actualUsername = sessionStorage.getItem("username");
+      updateUser(actualUsername, { username: this.userText })
+        .then((response) => {
+          sessionStorage.setItem("username", response.data.username);
+          this.usernameReadOnly = !this.usernameReadOnly;
+        })
+        .catch((err) => (this.errorMessage = err.response.data.message));
+      setTimeout(() => (this.errorMessage = ""), 1500);
+    },
+    changeImage() {
+      this.changeImgeBtn.flag = !this.changeImgeBtn.flag;
+      if (this.changeImgeBtn.flag) {
+        const actualUsername = sessionStorage.getItem("username");
+        updateUser(actualUsername, { picture: this.userPicture });/*
+          .then(() => {
+            //location.reload();
+          })
+          .catch((err) => console.error(err));*/
+
+        this.changeImgeBtn.icon = "mdi-camera";
+        this.changeImgeBtn.title = "Change image";
+      } else {
+        this.changeImgeBtn.icon = "mdi-content-save";
+        this.changeImgeBtn.title = "Save image";
+      }
+    },
+  },
+  mounted() {
+    getUser(sessionStorage.getItem("username"))
+      .then((response) => {
+        this.userText = response.data.username;
+        this.userPicture = response.data.picture;
+      })
+      .catch((err) => console.error(err.response.data.message));
+  },
 };
 </script>
 
