@@ -63,6 +63,11 @@ const routes = [
     path: '*',
     redirect: '/404',
   },
+  {
+    path: '/documents/upload',
+    name: "File upload",
+    component: () => import("../views/CargaArchivo.vue")
+  },
 ]
 
 const router = new VueRouter({

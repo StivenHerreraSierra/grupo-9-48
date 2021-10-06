@@ -77,7 +77,7 @@ export default {
           {
             title: "Upload document",
             icon: "mdi-upload",
-            path: "/user/settings",
+            path: "/documents/upload",
           },
           {
             title: "Settings",
