@@ -30,7 +30,7 @@ export default {
           {
             title: "Uploaded documents",
             icon: "mdi-file",
-            path: "/user/settings",
+            path: "/user/admin",
           },
           {
             title: "Settings",

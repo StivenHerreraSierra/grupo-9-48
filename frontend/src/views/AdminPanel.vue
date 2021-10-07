@@ -70,11 +70,6 @@ export default {
         },
         items: [
           {
-            title: "Uploaded documents",
-            icon: "mdi-file",
-            path: "/user/settings",
-          },
-          {
             title: "Upload document",
             icon: "mdi-upload",
             path: "/documents/upload",
