@@ -6,7 +6,7 @@
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3 class="text-center">User</h3>
         <hr />
-        <UserSettings></UserSettings>
+        <UserSettings v-on:usernameUpdated="checkUsername"></UserSettings>
       </v-container>
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3>Documents</h3>
@@ -23,8 +23,7 @@ import Menu from "../components/Menu.vue";
 import DocumentEdit from "../components/DocumentEdit.vue";
 import UserSettings from "../components/UserSettings.vue";
 
-import { getUser } from "../services/User.service";
-import { getAllDocuments } from "../services/Document.service";
+import { getAllDocuments, updateOwner } from "../services/Document.service";
 
 export default {
   components: {
@@ -53,21 +52,27 @@ export default {
           },
         ],
       },
-      user: {},
+      username: "",
       documents: [],
     };
   },
+  methods: {
+    checkUsername() {
+      const newUsername = sessionStorage.getItem("username");
+      updateOwner(this.username, { owner: newUsername })
+        .then((res) => (this.username = res.data.owner))
+        .catch((err) => console.log(err));
+    },
+  },
+  watch: {
+    username: function () {
+      getAllDocuments(this.username)
+        .then((response) => (this.documents = response.data))
+        .catch((empty) => (this.documents = empty.response.data));
+    },
+  },
   mounted() {
-    const username = sessionStorage.getItem("username");
-    getUser(username)
-      .then((response) => {
-        this.user = response.data;
-      })
-      .catch((err) => console.error(err));
-
-    getAllDocuments(username)
-      .then((response) => (this.documents = response.data))
-      .catch((err) => console.log(err));
+    this.username = sessionStorage.getItem("username");
   },
   beforeRouteEnter(to, from, next) {
     if (sessionStorage.getItem("username") == null) next("/404");

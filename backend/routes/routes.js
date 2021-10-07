@@ -54,6 +54,7 @@ router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
 router.use("/dictionary/:word", Dictionary.search);
 
 //Documento
-router.use("/user/documents/:username", DocumentsController.getAll);
+router.get("/user/documents/:username", DocumentsController.getAll);
+router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
 
 module.exports = router;
