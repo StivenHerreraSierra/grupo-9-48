@@ -10,7 +10,7 @@
       </v-container>
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3>Documents</h3>
-        <div v-for="document in user.documents" :key="document.title">
+        <div v-for="document in documents" :key="document.title">
           <DocumentEdit :documentName="document.title"></DocumentEdit>
         </div>
       </v-container>
@@ -24,6 +24,7 @@ import DocumentEdit from "../components/DocumentEdit.vue";
 import UserSettings from "../components/UserSettings.vue";
 
 import { getUser } from "../services/User.service";
+import { getAllDocuments } from "../services/Document.service";
 
 export default {
   components: {
@@ -53,6 +54,7 @@ export default {
         ],
       },
       user: {},
+      documents: [],
     };
   },
   mounted() {
@@ -62,11 +64,15 @@ export default {
         this.user = response.data;
       })
       .catch((err) => console.error(err));
+
+    getAllDocuments(username)
+      .then((response) => (this.documents = response.data))
+      .catch((err) => console.log(err));
   },
   beforeRouteEnter(to, from, next) {
     if (sessionStorage.getItem("username") == null) next("/404");
     else next();
-  },  
+  },
 };
 </script>
 

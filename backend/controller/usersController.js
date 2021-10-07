@@ -63,7 +63,7 @@ module.exports = class UsersController {
                     updatedUser = await usersModel.findOne({ "username": user.username });
                 if (updatedUser == null || updatedUser.username == username) {
                     updatedUser = await usersModel.findOneAndUpdate({ "username": username }, user, { new: true });
-                    //updatedUser.password = undefined;
+                    updatedUser.password = undefined;
                     res.status(200).json(updatedUser);
                 } else
                     res.status(403).json({ "message": `${updatedUser.username} is already in use` });
