@@ -33,18 +33,6 @@
 
             <section class="developers-section">
               <v-row no-gutters align="center">
-                <v-col>Juan Pablo Castaño Castro</v-col>
-                <v-col class="d-flex justify-end">
-                  <a
-                    class="btn-email"
-                    target="_blank"
-                    href="mailto:herreras.stiven@gmail.com?subject=Learning Partner"
-                    >Send an email</a
-                  >
-                </v-col>
-              </v-row>
-
-              <v-row no-gutters align="center">
                 <v-col>Stiven Herrera Sierra</v-col>
                 <v-col class="d-flex justify-end">
                   <a

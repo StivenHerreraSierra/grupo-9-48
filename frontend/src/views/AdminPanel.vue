@@ -2,7 +2,7 @@
   <v-layout class="dark-background white--text">
     <Menu :content="menu_content"></Menu>
 
-    <v-container fluid>
+    <v-container fluid class="main-container">
       <h1>Your documents</h1>
       <v-container class="mb-6" fluid>
         <v-layout align-center justify-space-between>
@@ -11,7 +11,7 @@
         </v-layout>
 
         <v-row>
-          <v-col v-for="n in 5" :key="n">
+          <v-col v-for="document in documents" :key="document.title">
             <Card :document="document"></Card>
           </v-col>
         </v-row>
@@ -41,7 +41,7 @@
         </v-row>
 
         <v-row>
-          <v-col v-for="n in 24" :key="n" cols="3">
+          <v-col v-for="document in documents" :key="document.title" cols="3">
             <Card :document="document"></Card>
           </v-col>
         </v-row>
@@ -53,6 +53,7 @@
 <script>
 import Menu from "../components/Menu.vue";
 import Card from "../components/Card.vue";
+import { getAllDocuments } from "../services/Document.service"
 
 export default {
   components: {
@@ -69,14 +70,9 @@ export default {
         },
         items: [
           {
-            title: "Uploaded documents",
-            icon: "mdi-file",
-            path: "/user/settings",
-          },
-          {
             title: "Upload document",
             icon: "mdi-upload",
-            path: "/user/settings",
+            path: "/documents/upload",
           },
           {
             title: "Settings",
@@ -86,11 +82,7 @@ export default {
         ],
       },
 
-      document: {
-        image: "https://www.dliflc.edu/wp-content/uploads/2018/11/book.jpg",
-        title: "Document",
-        last_open: "Today",
-      },
+      documents: [],
 
       searched_title: "",
       marker: true,
@@ -104,10 +96,15 @@ export default {
       this.searched_title = "";
     },
   },
+  mounted() {
+    getAllDocuments(sessionStorage.getItem("username"))
+      .then((response) => this.documents = response.data)
+      .catch((err) => console.log(err));
+  },
   beforeRouteEnter(to, from, next) {
     if (sessionStorage.getItem("username") == null) next("/404");
     else next();
-  },  
+  },
 };
 </script>
 
@@ -120,9 +117,9 @@ h2 {
   font-size: 28px !important;
   font-weight: normal;
 }
-.container {
+.main-container {
   margin: 0;
-  width: 100% !important;
+  min-height: calc(100vh - 40px);
 }
 .dark-background {
   background-color: #1c1f20;

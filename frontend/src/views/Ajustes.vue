@@ -41,14 +41,9 @@ export default {
         },
         items: [
           {
-            title: "Uploaded documents",
-            icon: "mdi-file",
-            path: "/user/admin",
-          },
-          {
             title: "Upload document",
             icon: "mdi-upload",
-            path: "/user/admin",
+            path: "/documents/upload",
           },
           {
             title: "Admin panel",

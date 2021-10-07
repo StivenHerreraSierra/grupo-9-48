@@ -34,6 +34,12 @@
               <v-icon center> mdi-magnify </v-icon></v-btn
             >
           </v-form>
+          <v-progress-circular
+            indeterminate
+            color="white"
+            v-if="loading"
+            class="circular-loader"
+          ></v-progress-circular>
           <h2 class="white--text text-capitalize">{{ word }}</h2>
           <v-img
             width="auto"
@@ -60,6 +66,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       valid: true,
       menu_content: {
         user: {
@@ -69,14 +76,9 @@ export default {
         },
         items: [
           {
-            title: "Uploaded documents",
-            icon: "mdi-file",
-            path: "/user/admin",
-          },
-          {
             title: "Upload document",
             icon: "mdi-upload",
-            path: "/user/admin",
+            path: "/documents/upload",
           },
           {
             title: "Admin panel",
@@ -109,6 +111,7 @@ export default {
       }
 
       this.word = this.input;
+      this.loading = true;
       getDefinition(this.input)
         .then((response) => {
           const definitions = response.data.definitions;
@@ -117,14 +120,15 @@ export default {
         })
         .catch((err) => {
           this.meaning = err;
-        });
+        })
+        .finally(() => this.loading = false);
     },
   },
   beforeRouteEnter(to, from, next) {
     if (to.path.includes("user") && sessionStorage.getItem("username") == null)
       next("/404");
     else next();
-  },  
+  },
 };
 </script>
 
@@ -142,5 +146,8 @@ export default {
 }
 #contenedorBuscador::first-letter {
   text-transform: capitalize;
+}
+.circular-loader {
+  min-width: 100%;
 }
 </style>
