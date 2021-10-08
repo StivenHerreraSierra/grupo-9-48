@@ -3,7 +3,7 @@
     <Menu :content="menu_content"></Menu>
     <v-row class="justify-center">
       <v-col lg="6">
-        <DocumentChooserForm></DocumentChooserForm>
+        <DocumentChooserForm v-on:addDocument="insertDocument"></DocumentChooserForm>
       </v-col>
     </v-row>
   </v-container>
@@ -12,6 +12,7 @@
 <script>
 import DocumentChooserForm from "../components/DocumentChooserForm.vue";
 import Menu from "../components/Menu.vue";
+import { insertDocument } from "../services/Document.service";
 
 export default {
   components: {
@@ -41,6 +42,15 @@ export default {
       },
     };
   },
+  methods: {
+    insertDocument(document) {
+      const owner = sessionStorage.getItem("username");
+
+      insertDocument(owner, document)
+        .then(() => console.log("insertado"))
+        .catch((err) => console.log(err.message));
+    }
+  }
 };
 </script>
 
