@@ -13,11 +13,14 @@ app.use(express.urlencoded({ extended: true }));
 //Agregar rutas a escuchar
 app.use("/api", require("./routes/routes"));
 
+//Carga de archivos
+app.use(express.static("./resources")) //le dice a express que la carpeta guarda archivos (no binarios).
+
 //Configurar la conexión a la base de datos
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DB_URI)
-.then(() => console.log("Conexión exitosa"))
-.catch(err => console.error(err));
+    .then(() => console.log("Conexión exitosa"))
+    .catch(err => console.error(err));
 
 //Iniciar el servidor
 const port = process.env.PORT;

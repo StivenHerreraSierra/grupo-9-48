@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const documentSchema = mongoose.Schema({
     "owner": String,
-    "documents": Array
+    "documents": []
 });
 
 module.exports = mongoose.model("documents", documentSchema);

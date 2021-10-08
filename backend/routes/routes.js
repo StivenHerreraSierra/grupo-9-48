@@ -3,11 +3,13 @@ const express = require("express");
 const UsersController = require("../controller/usersController");
 const Dictionary = require("../controller/dictionaryController");
 const DocumentsController = require("../controller/documentController");
+const FileUtil = require("../models/utilities/FileUtil");
 
 const router = express.Router();
 
 const fs = require("fs");
 const path = require("path");
+
 const multer = require("multer");
 
 //Configuración para cargar archivos.
@@ -50,10 +52,29 @@ router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
     );
 });
 
-//Diciccionario
+//Diccionario
 router.use("/dictionary/:word", Dictionary.search);
 
+//Carga de archivos
+const multerDocs = require("multer");
+const storageConfig = multerDocs.diskStorage({
+    destination: (req, res, callback) => {
+        const dir = "./resources/" + req.params.owner;
+        if( !FileUtil.exists(dir) ) FileUtil.mkdir(dir);
+
+        callback(null, dir);
+    },
+    filename: (req, file, callback) => {
+        callback(null, "file_" + req.body.filename + "." + FileUtil.getExtension(file.originalname));
+    }
+});
+
+const uploadFile = multerDocs({
+    storage: storageConfig
+})
+
 //Documento
-router.use("/user/documents/:username", DocumentsController.getAll);
+router.get("/user/documents/:username", DocumentsController.getAll);
+router.put("/user/documents/upload/:owner", uploadFile.single("file"), DocumentsController.insert);
 
 module.exports = router;
