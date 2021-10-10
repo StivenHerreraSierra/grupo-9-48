@@ -17,17 +17,21 @@ const userModel = require("../models/users");
 const RESOURCES_PATH = path.join(path.dirname(__dirname), "resources"); //Ruta hacia los recursos del proyecto.
 // Configuración de multer.
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        fs.mkdir(
-            path.join(RESOURCES_PATH, req.params.username),
-            {recursive: true},
-            (err) => (err) ? console.log("Error: ", err) : console.log("Uploaded")
-        );
+    destination: (req, file, callback) => {
+        const dir = "./resources/" + req.params.username;
+        if( !FileUtil.exists(dir) ) FileUtil.mkdir(dir);
 
-        cb(null, path.join(RESOURCES_PATH, req.params.username));
+        callback(null, dir);
     },
-    filename: (req, file, cb) => {
-        cb(null, req.params.username + "-image-" + Date.now());
+    filename: (req, file, callback) => {
+        const extension = FileUtil.getExtension(file.originalname);
+        if(extension === 'pdf') {
+            if(DocumentsController.validateTitle(req.params.username, req.body.title)) {
+                callback(null, "file_" + file.originalname);
+            }
+        } else {
+            callback(null, req.params.username + "-image-" + Date.now());
+        }
     }
 });
 
@@ -55,26 +59,8 @@ router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
 //Diccionario
 router.use("/dictionary/:word", Dictionary.search);
 
-//Carga de archivos
-const multerDocs = require("multer");
-const storageConfig = multerDocs.diskStorage({
-    destination: (req, res, callback) => {
-        const dir = "./resources/" + req.params.owner;
-        if( !FileUtil.exists(dir) ) FileUtil.mkdir(dir);
-
-        callback(null, dir);
-    },
-    filename: (req, file, callback) => {
-        callback(null, "file_" + req.body.filename + "." + FileUtil.getExtension(file.originalname));
-    }
-});
-
-const uploadFile = multerDocs({
-    storage: storageConfig
-})
-
 //Documento
 router.get("/user/documents/:username", DocumentsController.getAll);
-router.put("/user/documents/upload/:owner", uploadFile.single("file"), DocumentsController.insert);
+router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insert);
 
 module.exports = router;
