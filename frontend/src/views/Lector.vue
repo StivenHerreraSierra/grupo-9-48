@@ -5,7 +5,12 @@
       <v-row class="contenedores-lector">
         <v-col cols="9">
           <!--<iframe :src="documentURL" width="100%" height="100%"></iframe>-->
-          <object :data="documentURL" type="application/pdf" width="100%" height="100%" />
+          <object
+            :data="documentURL"
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          />
         </v-col>
         <v-col cols="3">
           <v-form
@@ -60,6 +65,7 @@
 <script>
 import Menu from "../components/Menu.vue";
 import { getDefinition } from "../services/Dictionary.service";
+import { getUser } from "../services/User.service";
 
 export default {
   components: {
@@ -71,9 +77,8 @@ export default {
       valid: true,
       menu_content: {
         user: {
-          image:
-            "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwb2JqZWN0c3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          name: "User",
+          picture: null,
+          username: "User",
         },
         items: [
           {
@@ -97,9 +102,21 @@ export default {
     };
   },
   mounted() {
-    this.isUser = sessionStorage.getItem("username") != null ? true : false;
+    const username = sessionStorage.getItem("username");
+
+    this.isUser = username != null ? true : false;
     if (this.isUser) {
-      this.documentURL = localStorage.getItem('document');
+      this.menu_content.user.username = username;
+
+      getUser(username)
+        .then(
+          (response) =>
+            (this.menu_content.user.picture = response.data.picture
+              ? response.data.picture
+              : "../assets/image/user.png")
+        )
+        .catch((err) => console.error(err.message));
+      this.documentURL = localStorage.getItem("document");
 
       //this.documentURL = "http://www.africau.edu/images/default/sample.pdf";
     } else {
@@ -124,7 +141,7 @@ export default {
         .catch((err) => {
           this.meaning = err;
         })
-        .finally(() => this.loading = false);
+        .finally(() => (this.loading = false));
     },
   },
   beforeRouteEnter(to, from, next) {
