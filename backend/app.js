@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 //Configuración del servidor web
-
 const express = require("express");
 const cors = require("cors");
 
