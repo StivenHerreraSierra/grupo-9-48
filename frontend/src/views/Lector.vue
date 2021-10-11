@@ -91,6 +91,11 @@ export default {
             icon: "mdi-view-dashboard-outline",
             path: "/user/admin",
           },
+          {
+            title: "Settings",
+            icon: "mdi-cog-outline",
+            path: "/user/settings",
+          },
         ],
       },
       isUser: false,
@@ -111,7 +116,7 @@ export default {
       getUser(username)
         .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
         .catch((err) => console.error(err.message));
-        
+
       this.documentURL = localStorage.getItem("document");
 
       //this.documentURL = "http://www.africau.edu/images/default/sample.pdf";
