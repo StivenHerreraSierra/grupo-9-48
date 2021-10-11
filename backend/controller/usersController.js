@@ -57,18 +57,14 @@ module.exports = class UsersController {
         try {
             const username = req.params.username;
             const user = req.body;
-            let updatedUser = await usersModel.findOne({ "username": username });
-            if (updatedUser != null) {
-                if (user.username != null)
-                    updatedUser = await usersModel.findOne({ "username": user.username });
-                if (updatedUser == null || updatedUser.username == username) {
-                    updatedUser = await usersModel.findOneAndUpdate({ "username": username }, user, { new: true });
-                    updatedUser.password = undefined;
-                    res.status(200).json(updatedUser);
-                } else
-                    res.status(403).json({ "message": `${updatedUser.username} is already in use` });
+            const usernameFilter = user.username ? user.username : username;
+            let updatedUser = await usersModel.findOne({ "username": usernameFilter });                        
+            if (updatedUser == null || updatedUser.username == username) {
+                updatedUser = await usersModel.findOneAndUpdate({ "username": username }, user, { new: true });
+                updatedUser.password = undefined;
+                res.status(200).json(updatedUser)
             } else {
-                res.status(404).json({ "message": `User not found` });
+                res.status(403).json({ "message": `${updatedUser.username} is already in use` });
             }
         } catch (err) {
             res.status(400).json({ message: err.message });

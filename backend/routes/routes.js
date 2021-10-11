@@ -61,6 +61,10 @@ router.use("/dictionary/:word", Dictionary.search);
 
 //Documento
 router.get("/user/documents/:username", DocumentsController.getAll);
+
 router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insert);
+
+router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
+
 
 module.exports = router;

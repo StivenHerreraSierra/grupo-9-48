@@ -17,7 +17,12 @@
         v-model="userPicture"
       >
       </v-text-field>
-      <v-btn rounded small v-on:click="changeImage()">
+      <v-btn
+        rounded
+        small
+        v-on:click="changeImage()"
+        :disabled="!usernameReadOnly"
+      >
         <v-icon left> {{ changeImgeBtn.icon }} </v-icon
         >{{ changeImgeBtn.title }}</v-btn
       >
@@ -38,7 +43,7 @@
             small
             color="primary"
             :disabled="usernameReadOnly"
-            v-on:click="sendUser()"
+            v-on:click="saveUser()"
           >
             <v-icon left> mdi-content-save </v-icon>Save</v-btn
           >
@@ -46,7 +51,7 @@
             small
             color="success"
             v-on:click="usernameReadOnly = !usernameReadOnly"
-            :disabled="!usernameReadOnly"
+            :disabled="!usernameReadOnly || !changeImgeBtn.flag"
           >
             <v-icon left> mdi-pencil </v-icon>Edit</v-btn
           ></v-container
@@ -74,26 +79,29 @@ export default {
     };
   },
   methods: {
-    sendUser() {
+    saveUser() {
+      if (this.userText.length < 1) {
+        this.errorMessage = "Invalid username";
+        setTimeout(() => (this.errorMessage = ""), 1500);
+        return;
+      }
       const actualUsername = sessionStorage.getItem("username");
-      updateUser(actualUsername, { username: this.userText })
-        .then((response) => {
-          sessionStorage.setItem("username", response.data.username);
-          this.usernameReadOnly = !this.usernameReadOnly;
-        })
-        .catch((err) => (this.errorMessage = err.response.data.message));
-      setTimeout(() => (this.errorMessage = ""), 1500);
+      if (actualUsername != this.userText) {
+        updateUser(actualUsername, { username: this.userText })
+          .then((response) => {
+            sessionStorage.setItem("username", response.data.username);
+            this.usernameReadOnly = !this.usernameReadOnly;
+            this.$emit("usernameUpdated");
+          })
+          .catch((err) => (this.errorMessage = err.response.data.message));
+        setTimeout(() => (this.errorMessage = ""), 1500);
+      } else this.usernameReadOnly = !this.usernameReadOnly;
     },
     changeImage() {
       this.changeImgeBtn.flag = !this.changeImgeBtn.flag;
       if (this.changeImgeBtn.flag) {
         const actualUsername = sessionStorage.getItem("username");
-        updateUser(actualUsername, { picture: this.userPicture });/*
-          .then(() => {
-            //location.reload();
-          })
-          .catch((err) => console.error(err));*/
-
+        updateUser(actualUsername, { picture: this.userPicture });
         this.changeImgeBtn.icon = "mdi-camera";
         this.changeImgeBtn.title = "Change image";
       } else {

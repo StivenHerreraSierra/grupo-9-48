@@ -10,7 +10,7 @@ module.exports = class DocumentController {
 
                 res.status(200).json(user.documents);
             } catch (err) {
-                res.status(500).json({ message: err.message });
+                res.status(400).json({ message: err.message });
             }
         }
     }
@@ -52,5 +52,18 @@ module.exports = class DocumentController {
         });
 
         return document == null || document == undefined;
+    }
+
+    static async updateOwner(req, res) {
+
+        try {
+            const username = req.params.username;
+            const newOwner = req.body;
+            await documentModel.findOneAndUpdate({ "owner": username }, newOwner);
+            res.status(200).json(newOwner);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+
     }
 };
