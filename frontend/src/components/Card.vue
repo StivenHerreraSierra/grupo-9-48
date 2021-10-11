@@ -1,7 +1,7 @@
 <template>
 <v-hover v-slot="{ hover }">
-  <v-card class="mx-auto" color="grey lighten-4" max-width="600" height="250px"  link to="/user/reader">
-    <v-img :aspect-ratio="16 / 9" src="../assets/image/github.png" height="250px">
+  <v-card class="mx-auto" color="grey lighten-4" max-width="600" height="250px"  @click="read">
+    <v-img :aspect-ratio="16 / 9" src="../assets/image/book.jpg" height="250px">
       <v-expand-transition>
         <div
           v-if="hover"
@@ -41,6 +41,15 @@ export default {
   methods: {
     formatedDate (date) {
       return new Date(date).toLocaleString();
+    },
+    read() {
+      localStorage.setItem("document", this.document.file);
+      this.$router.push('/user/reader/' + this.documentTitle);
+    }
+  },
+  computed: {
+    documentTitle() {
+      return this.document.title.toLowerCase().replace(/\s/g, "-");
     }
   }
 };

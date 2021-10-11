@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", require("./routes/routes"));
 
 //Carga de archivos
-app.use(express.static("./resources")) //le dice a express que la carpeta guarda archivos (no binarios).
+app.use(express.static("resources")) //le dice a express que la carpeta guarda archivos (no binarios).
 
 //Configurar la conexión a la base de datos
 const mongoose = require("mongoose");

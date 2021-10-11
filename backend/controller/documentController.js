@@ -29,7 +29,7 @@ module.exports = class DocumentController {
                         $push: {
                             documents: {
                                 title: title,
-                                file: "/" + req.file.filename,
+                                file: "/" + username + "/" + req.file.filename,
                                 lastOpenDate: req.body.date,
                             },
                         },

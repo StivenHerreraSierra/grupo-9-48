@@ -4,7 +4,8 @@
     <v-container class="contenedores-lector">
       <v-row class="contenedores-lector">
         <v-col cols="9">
-          <iframe :src="documentURL" width="100%" height="100%"></iframe>
+          <!--<iframe :src="documentURL" width="100%" height="100%"></iframe>-->
+          <object :data="documentURL" type="application/pdf" width="100%" height="100%" />
         </v-col>
         <v-col cols="3">
           <v-form
@@ -88,7 +89,7 @@ export default {
         ],
       },
       isUser: false,
-      documentURL: "",
+      documentURL: null,
       input: "",
       word: "",
       wordImage: "",
@@ -98,7 +99,9 @@ export default {
   mounted() {
     this.isUser = sessionStorage.getItem("username") != null ? true : false;
     if (this.isUser) {
-      this.documentURL = "http://www.africau.edu/images/default/sample.pdf";
+      this.documentURL = localStorage.getItem('document');
+
+      //this.documentURL = "http://www.africau.edu/images/default/sample.pdf";
     } else {
       this.documentURL = sessionStorage.getItem("demoURL");
     }

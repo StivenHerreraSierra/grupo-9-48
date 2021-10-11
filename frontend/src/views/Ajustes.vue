@@ -80,6 +80,8 @@ export default {
 #account {
   background-color: #343a40;
   height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 h1 {
   color: white;

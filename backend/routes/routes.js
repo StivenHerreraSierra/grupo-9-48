@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
         const extension = FileUtil.getExtension(file.originalname);
         if(extension === 'pdf') {
             if(DocumentsController.validateTitle(req.params.username, req.body.title)) {
-                callback(null, "file_" + file.originalname);
+                callback(null, "file_" + file.originalname.replace(/\s/g, ""));
             }
         } else {
             callback(null, req.params.username + "-image-" + Date.now());
