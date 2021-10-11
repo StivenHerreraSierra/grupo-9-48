@@ -22,6 +22,7 @@
 import Menu from "../components/Menu.vue";
 import DocumentEdit from "../components/DocumentEdit.vue";
 import UserSettings from "../components/UserSettings.vue";
+import { getUser } from "../services/User.service";
 
 import { getAllDocuments, updateOwner } from "../services/Document.service";
 
@@ -35,9 +36,8 @@ export default {
     return {
       menu_content: {
         user: {
-          image:
-            "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwb2JqZWN0c3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          name: "User",
+          picture: null,
+          username: "User",
         },
         items: [
           {
@@ -72,7 +72,14 @@ export default {
     },
   },
   mounted() {
-    this.username = sessionStorage.getItem("username");
+    const username = sessionStorage.getItem("username");
+    this.menu_content.user.username = username;
+
+    getUser(username)
+      .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
+      .catch((err) => console.error(err.message));
+
+    this.username = username;
   },
   beforeRouteEnter(to, from, next) {
     if (sessionStorage.getItem("username") == null) next("/404");
