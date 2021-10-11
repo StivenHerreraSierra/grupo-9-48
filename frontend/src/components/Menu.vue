@@ -27,8 +27,7 @@
     </v-list>
 
     <template v-slot:append>
-        <div class="pa-2">
-          <v-icon large >mdi-exit-to-app</v-icon>
+        <div class="pa-2 mb-4">
           <v-btn block to="/logout">
             Exit
           </v-btn>

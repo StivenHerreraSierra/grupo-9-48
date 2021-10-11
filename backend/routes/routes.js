@@ -3,11 +3,13 @@ const express = require("express");
 const UsersController = require("../controller/usersController");
 const Dictionary = require("../controller/dictionaryController");
 const DocumentsController = require("../controller/documentController");
+const FileUtil = require("../models/utilities/FileUtil");
 
 const router = express.Router();
 
 const fs = require("fs");
 const path = require("path");
+
 const multer = require("multer");
 
 //Configuración para cargar archivos.
@@ -15,17 +17,21 @@ const userModel = require("../models/users");
 const RESOURCES_PATH = path.join(path.dirname(__dirname), "resources"); //Ruta hacia los recursos del proyecto.
 // Configuración de multer.
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        fs.mkdir(
-            path.join(RESOURCES_PATH, req.params.username),
-            {recursive: true},
-            (err) => (err) ? console.log("Error: ", err) : console.log("Uploaded")
-        );
+    destination: (req, file, callback) => {
+        const dir = "./resources/" + req.params.username;
+        if( !FileUtil.exists(dir) ) FileUtil.mkdir(dir);
 
-        cb(null, path.join(RESOURCES_PATH, req.params.username));
+        callback(null, dir);
     },
-    filename: (req, file, cb) => {
-        cb(null, req.params.username + "-image-" + Date.now());
+    filename: (req, file, callback) => {
+        const extension = FileUtil.getExtension(file.originalname);
+        if(extension === 'pdf') {
+            if(DocumentsController.validateTitle(req.params.username, req.body.title)) {
+                callback(null, "file_" + file.originalname.replace(/\s/g, ""));
+            }
+        } else {
+            callback(null, req.params.username + "-image-" + Date.now());
+        }
     }
 });
 
@@ -50,11 +56,15 @@ router.put("/users/admin/:username", upload.single('picture'), (req, res) => {
     );
 });
 
-//Diciccionario
+//Diccionario
 router.use("/dictionary/:word", Dictionary.search);
 
 //Documento
 router.get("/user/documents/:username", DocumentsController.getAll);
+
+router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insert);
+
 router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
+
 
 module.exports = router;
