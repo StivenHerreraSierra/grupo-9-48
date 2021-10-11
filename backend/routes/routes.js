@@ -19,7 +19,10 @@ const RESOURCES_PATH = path.join(path.dirname(__dirname), "resources"); //Ruta h
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         const dir = "./resources/" + req.params.username;
-        if( !FileUtil.exists(dir) ) FileUtil.mkdir(dir);
+        if( !FileUtil.exists(dir) ) {
+            DocumentsController.insert(req.params.username);
+            FileUtil.mkdir(dir);
+        }
 
         callback(null, dir);
     },
@@ -62,7 +65,7 @@ router.use("/dictionary/:word", Dictionary.search);
 //Documento
 router.get("/user/documents/:username", DocumentsController.getAll);
 
-router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insert);
+router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insertDocument);
 
 router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
 
