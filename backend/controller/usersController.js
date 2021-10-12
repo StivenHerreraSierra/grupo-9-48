@@ -1,4 +1,5 @@
 const usersModel = require("../models/users");
+const FileUtil = require("../models/utilities/FileUtil");
 
 module.exports = class UsersController {
 
@@ -52,20 +53,34 @@ module.exports = class UsersController {
 
     }
 
-    static async update(req, res) {
+    static async updateUser(req, res) {
 
         try {
             const username = req.params.username;
             const user = req.body;
-            const usernameFilter = user.username ? user.username : username;
-            let updatedUser = await usersModel.findOne({ "username": usernameFilter });                        
-            if (updatedUser == null || updatedUser.username == username) {
+            let updatedUser = await usersModel.findOne({ "username": user.username });
+            if (updatedUser == null) {
                 updatedUser = await usersModel.findOneAndUpdate({ "username": username }, user, { new: true });
-                updatedUser.password = undefined;
-                res.status(200).json(updatedUser)
-            } else {
+                if (user.picture.startsWith(`/${updatedUser.username}`))
+                    FileUtil.renameUserFolder(username, updatedUser.username);
+                res.status(200).json({ "username": updatedUser.username });
+            } else
                 res.status(403).json({ "message": `${updatedUser.username} is already in use` });
-            }
+
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+
+    }
+
+    static async updateUserPicture(req, res) {
+
+        try {
+            const username = req.params.username;
+            const image = req.file.filename;
+            const imagePath = `/${username}/${image}`;
+            const updatedUser = await usersModel.findOneAndUpdate({ "username": username }, { "picture": imagePath }, { new: true });
+            res.status(200).json(updatedUser.picture);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

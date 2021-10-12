@@ -2,6 +2,8 @@ const { constants } = require("buffer");
 const fs = require("fs");
 const path = require("path");
 
+
+
 module.exports = class FileUtil {
   static exists(path) {
     return fs.access(path, constants.F_OK, (err) => (err ? false : true));
@@ -17,5 +19,10 @@ module.exports = class FileUtil {
 
   static getExtension(fullname) {
     return fullname.split(".").pop();
+  }
+
+  static async renameUserFolder(oldUser, newUser) {
+    const root = "resources/";
+    await fs.promises.rename(root + oldUser, root + newUser);
   }
 };
