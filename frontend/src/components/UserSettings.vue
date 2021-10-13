@@ -8,24 +8,46 @@
         width="200"
         class="mb-3"
       ></v-img>
-      <v-text-field
+      <v-file-input
+        accept="image/*"
         dense
         outlined
         color="black"
         background-color="white"
-        v-if="!changeImgeBtn.flag"
-        v-model="userPicture"
+        v-if="!changeImageBtn.flag"
+        v-model="newUserPicture"
+        class="d-flex align-self-stretch"
       >
-      </v-text-field>
-      <v-btn
-        rounded
-        small
-        v-on:click="changeImage()"
-        :disabled="!usernameReadOnly"
-      >
-        <v-icon left> {{ changeImgeBtn.icon }} </v-icon
-        >{{ changeImgeBtn.title }}</v-btn
-      >
+      </v-file-input>
+      <v-row dense class="d-flex justify-center align-self-auto">
+        <v-col cols="2" class="d-flex justify-center align-self-auto">
+          <v-btn
+            rounded
+            block
+            small
+            v-on:click="changeImage()"
+            :disabled="
+              !usernameReadOnly ||
+              (newUserPicture == null && !changeImageBtn.flag)
+            "
+            class="mr-2"
+            :color="changeImageBtn.color"
+          >
+            <v-icon left> {{ changeImageBtn.icon }} </v-icon
+            >{{ changeImageBtn.title }}</v-btn
+          >
+          <v-btn
+            rounded
+            block
+            small
+            v-on:click="cancelChangeImage()"
+            v-if="!changeImageBtn.flag"
+            color="error"
+          >
+            <v-icon left> mdi-close </v-icon>Cancel</v-btn
+          >
+        </v-col>
+      </v-row>
     </v-col>
     <v-col class="d-flex flex-column align-center" cols="7">
       <v-form>
@@ -51,7 +73,7 @@
             small
             color="success"
             v-on:click="usernameReadOnly = !usernameReadOnly"
-            :disabled="!usernameReadOnly || !changeImgeBtn.flag"
+            :disabled="!usernameReadOnly || !changeImageBtn.flag"
           >
             <v-icon left> mdi-pencil </v-icon>Edit</v-btn
           ></v-container
@@ -62,7 +84,11 @@
 </template>
 
 <script>
-import { getUser, updateUser } from "../services/User.service";
+import {
+  getUser,
+  updateUser,
+  updateUserPicture,
+} from "../services/User.service";
 
 export default {
   data() {
@@ -70,24 +96,34 @@ export default {
       usernameReadOnly: true,
       userText: "",
       userPicture: "",
+      newUserPicture: null,
       errorMessage: "",
-      changeImgeBtn: {
+      changeImageBtn: {
         flag: true,
         icon: "mdi-camera",
         title: "Change image",
+        color: "normal",
       },
     };
   },
   methods: {
     saveUser() {
-      if (this.userText.length < 1) {
-        this.errorMessage = "Invalid username";
+      if (this.userText.length < 5) {
+        this.errorMessage = "Min 5 characters";
         setTimeout(() => (this.errorMessage = ""), 1500);
         return;
       }
       const actualUsername = sessionStorage.getItem("username");
       if (actualUsername != this.userText) {
-        updateUser(actualUsername, { username: this.userText })
+        let userPicture = this.userPicture;
+        if (userPicture.startsWith(`/${actualUsername}`))
+          userPicture = userPicture.replace(actualUsername, this.userText);
+        const user = {
+          username: this.userText,
+          picture: userPicture,
+        };
+
+        updateUser(actualUsername, user)
           .then((response) => {
             sessionStorage.setItem("username", response.data.username);
             this.usernameReadOnly = !this.usernameReadOnly;
@@ -98,15 +134,31 @@ export default {
       } else this.usernameReadOnly = !this.usernameReadOnly;
     },
     changeImage() {
-      this.changeImgeBtn.flag = !this.changeImgeBtn.flag;
-      if (this.changeImgeBtn.flag) {
+      this.changeImageBtn.flag = !this.changeImageBtn.flag;
+      if (this.changeImageBtn.flag) {
         const actualUsername = sessionStorage.getItem("username");
-        updateUser(actualUsername, { picture: this.userPicture });
-        this.changeImgeBtn.icon = "mdi-camera";
-        this.changeImgeBtn.title = "Change image";
+        this.userPicture = "";
+        const user = new FormData();
+        user.append("picture", this.newUserPicture);
+        updateUserPicture(actualUsername, user)
+          .then(() => location.reload())
+          .catch((err) => console.log(err));
       } else {
-        this.changeImgeBtn.icon = "mdi-content-save";
-        this.changeImgeBtn.title = "Save image";
+        this.changeImageBtn.icon = "mdi-content-save";
+        this.changeImageBtn.title = "Save image";
+        this.changeImageBtn.color = "primary";
+      }
+    },
+    cancelChangeImage() {
+      this.changeImageBtn.flag = !this.changeImageBtn.flag;
+      if (this.changeImageBtn.flag) {
+        this.changeImageBtn.icon = "mdi-camera";
+        this.changeImageBtn.title = "Change image";
+        this.changeImageBtn.color = "normal";
+      } else {
+        this.changeImageBtn.icon = "mdi-content-save";
+        this.changeImageBtn.title = "Save image";
+        this.changeImageBtn.color = "primary";
       }
     },
   },

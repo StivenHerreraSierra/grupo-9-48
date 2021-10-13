@@ -8,7 +8,11 @@ module.exports = class DocumentController {
             try {
                 const user = await documentModel.findOne({ owner: username });
 
-                res.status(200).json(user.documents);
+                if (user != null)
+                    res.status(200).json(user.documents);
+                else
+                    res.status(200).json([]);
+
             } catch (err) {
                 res.status(400).json({ message: err.message });
             }

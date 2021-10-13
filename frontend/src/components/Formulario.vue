@@ -94,6 +94,8 @@ export default {
       const user = {
         username: this.name,
         password: this.password,
+        picture:
+          "https://bysperfeccionoral.com/wp-content/uploads/2020/01/136-1366211_group-of-10-guys-login-user-icon-png.jpg",
       };
 
       this.$emit("submit", user);
