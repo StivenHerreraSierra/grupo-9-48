@@ -12,7 +12,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 v-snackbar {
     text-align: center !important;
 }

@@ -11,7 +11,11 @@
       <v-container fluid class="mb-5 rounded-3" id="settings-container">
         <h3>Documents</h3>
         <div v-for="document in documents" :key="document.title">
-          <DocumentEdit :documentName="document.title"></DocumentEdit>
+          <DocumentEdit
+            :documentName="document.title"
+            v-on:deleteDocument="removeDocument"
+            v-on:updateDocument="updateDocument"
+          ></DocumentEdit>
         </div>
       </v-container>
     </v-container>
@@ -24,7 +28,11 @@ import DocumentEdit from "../components/DocumentEdit.vue";
 import UserSettings from "../components/UserSettings.vue";
 import { getUser } from "../services/User.service";
 
-import { getAllDocuments, updateOwner } from "../services/Document.service";
+import {
+  getAllDocuments,
+  deleteDocument,
+  updateOwner,
+} from "../services/Document.service";
 
 export default {
   components: {
@@ -59,9 +67,39 @@ export default {
   methods: {
     checkUsername() {
       const newUsername = sessionStorage.getItem("username");
-      updateOwner(this.username, { owner: newUsername })
+
+      this.documents = this.documents.map((document) => {
+        let fileName = document.file.substring(this.username.length + 1);
+        document.file = `/${newUsername}${fileName}`;
+        return document;
+      });
+
+      const newOwnerData = {
+        owner: newUsername,
+        documents: this.documents,
+      };
+
+      updateOwner(this.username, newOwnerData)
         .then((res) => (this.username = res.data.owner))
         .catch((err) => console.log(err));
+    },
+    removeDocument(documentName) {
+      const confirm = window.confirm(
+        "Are you sure that you want to delete this document?"
+      );
+      if (confirm) {
+        const index = this.documents.findIndex((x) => x.title == documentName);
+        const fileDeleted = this.documents[index].file;
+        this.documents = this.documents.filter((x) => x.title != documentName);
+        const documentsInfo = {
+          documents: this.documents,
+          fileDeleted: fileDeleted,
+        };
+        deleteDocument(this.username, documentsInfo);
+      }
+    },
+    updateDocument(documentName) {
+      console.log(documentName);
     },
   },
   watch: {
@@ -71,12 +109,16 @@ export default {
         .catch((empty) => (this.documents = empty.response.data));
     },
   },
-  mounted() {
+  created() {
     const username = sessionStorage.getItem("username");
     this.menu_content.user.username = username;
 
     getUser(username)
-      .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
+      .then((response) => {
+        const picture = response.data.picture;
+        this.menu_content.user.picture =
+          picture == "picture" ? `/${username}/${picture}` : picture;
+      })
       .catch((err) => console.error(err.message));
 
     this.username = username;
@@ -88,7 +130,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 #account {
   background-color: #343a40;
   height: 100%;

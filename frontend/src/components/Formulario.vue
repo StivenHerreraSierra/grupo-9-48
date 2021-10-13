@@ -132,7 +132,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .contenedor {
   background-color: #212529;
   z-index: 2;

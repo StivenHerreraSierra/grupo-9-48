@@ -12,8 +12,11 @@ const insertDocument = (username, document) => httpClient.put(`${END_POINT}/uplo
 
 const updateOwner = (username, newOwner) => httpClient.put(`${END_POINT}/updateowner/${username}`, newOwner);
 
+const deleteDocument = (username, updatedDocuments) => httpClient.patch(`${END_POINT}/delete/${username}`, updatedDocuments);
+
 export {
     getAllDocuments,
     insertDocument,
-    updateOwner
+    updateOwner,
+    deleteDocument
 };

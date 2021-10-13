@@ -114,7 +114,11 @@ export default {
       this.menu_content.user.username = username;
 
       getUser(username)
-        .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
+        .then((response) => {
+          const picture = response.data.picture;
+          this.menu_content.user.picture =
+            picture == "picture" ? `/${username}/${picture}` : picture;
+        })
         .catch((err) => console.error(err.message));
 
       this.documentURL = localStorage.getItem("document");
@@ -154,7 +158,7 @@ export default {
 </script>
 
 
-<style scope>
+<style scoped>
 .contenedores-lector {
   height: 100%;
 }

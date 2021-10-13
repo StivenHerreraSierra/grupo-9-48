@@ -79,7 +79,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .dark-background {
   background-color: #1c1f20b9;
 }

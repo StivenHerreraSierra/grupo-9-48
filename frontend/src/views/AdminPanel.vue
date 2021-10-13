@@ -53,8 +53,8 @@
 <script>
 import Menu from "../components/Menu.vue";
 import Card from "../components/Card.vue";
-import { getAllDocuments } from "../services/Document.service"
-import { getUser } from '../services/User.service';
+import { getAllDocuments } from "../services/Document.service";
+import { getUser } from "../services/User.service";
 
 export default {
   components: {
@@ -101,11 +101,15 @@ export default {
     this.menu_content.user.username = username;
 
     getUser(username)
-      .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
+      .then((response) => {
+        const picture = response.data.picture;
+        this.menu_content.user.picture =
+          picture == "picture" ? `/${username}/${picture}` : picture;
+      })
       .catch((err) => console.error(err.message));
 
     getAllDocuments(username)
-      .then((response) => this.documents = response.data)
+      .then((response) => (this.documents = response.data))
       .catch((err) => console.log(err));
   },
   beforeRouteEnter(to, from, next) {
@@ -115,7 +119,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   font-size: 40px !important;
   font-weight: normal;

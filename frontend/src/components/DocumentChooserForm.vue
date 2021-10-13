@@ -83,7 +83,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .dark-background {
   background-color: #1c1f20 !important;
 }

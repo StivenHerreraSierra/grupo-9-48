@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .option {
     font-size: 15px !important;
     font-weight: normal !important;
