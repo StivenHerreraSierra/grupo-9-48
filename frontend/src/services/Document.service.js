@@ -21,5 +21,5 @@ export {
     insertDocument,
     updateOwner,
     deleteDocument,
-    getDocumentsByTitle
+    getDocumentsByTitle,
 };
