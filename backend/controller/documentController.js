@@ -12,10 +12,10 @@ module.exports = class DocumentController {
         if (username) {
             try {
                 const user = await documentModel.findOne({ owner: username });
-                if(user!=null)
+                if (user != null)
                     res.status(200).json(user.documents);
                 else
-                res.status(200).json([]);
+                    res.status(200).json([]);
             } catch (err) {
                 res.status(400).json({ message: err.message });
             }
@@ -25,7 +25,7 @@ module.exports = class DocumentController {
     static async getByTitle(req, res) {
         const username = req.params.username;
 
-        if(username) {
+        if (username) {
             try {
                 const title = req.params.title;
                 const user = await documentModel.findOne({ owner: username });
@@ -33,16 +33,16 @@ module.exports = class DocumentController {
                 const documents = user.documents.filter(item => item.title.startsWith(title));
 
                 res.status(200).json(documents);
-            } catch(err) {
-                res.status(500).json({"message": err.message});
+            } catch (err) {
+                res.status(500).json({ "message": err.message });
             }
         }
     }
 
     static async insert(username) {
         try {
-            await documentModel.create({owner: username, documents: []});
-        } catch(err) {
+            await documentModel.create({ owner: username, documents: [] });
+        } catch (err) {
             console.error(err.message);
         }
     }
@@ -118,13 +118,14 @@ module.exports = class DocumentController {
     }
     */
 
-    static async deleteDocument(req, res) {
+    static async updateDocumentsInfo(req, res) {
 
         try {
             const owner = req.params.username;
             const documents = req.body.documents;
             const fileName = req.body.fileDeleted;
-            FileUtil.deleteDocument(fileName);
+            if (fileName != "")
+                FileUtil.deleteDocument(fileName);
             await documentModel.findOneAndUpdate({ "owner": owner }, { "documents": documents });
             res.status(200).json();
         } catch (err) {
