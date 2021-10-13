@@ -96,7 +96,7 @@ export default {
       this.searched_title = "";
     },
   },
-  mounted() {
+  created() {
     const username = sessionStorage.getItem("username");
     this.menu_content.user.username = username;
 

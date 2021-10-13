@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 //Configuración del servidor web
-
 const express = require("express");
 const cors = require("cors");
 
@@ -22,6 +21,15 @@ mongoose.connect(process.env.DB_URI)
     .then(() => console.log("Conexión exitosa"))
     .catch(err => console.error(err));
 
+//Despliegue del front en producción
+if(process.env.NODE_ENV === 'production') { //Si node dice que estamos en producción.
+    app.use(express.static(__dirname+"/site/")); //La carpeta site debe ser parte del contenido estático.
+    app.get("*", (req, res) => {
+        res.sendFile(__dirname+"/site/index.html"); //Envía el archivo index.html que está dentro de /site.
+    })
+}
+
 //Iniciar el servidor
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Puerto: ${port}`));
+

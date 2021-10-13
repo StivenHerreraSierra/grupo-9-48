@@ -2,7 +2,8 @@
   <v-navigation-drawer app expand-on-hover permanent dark>
     <v-list-item class="px-2">
       <v-list-item-avatar>
-        <v-img :src="content.user.picture"></v-img>
+        <v-img :src="content.user.picture" v-if="content.user.picture"></v-img>
+        <v-img src="../assets/image/user.png" v-else></v-img>
       </v-list-item-avatar>
 
       <v-list-item-title>{{ content.user.username }}</v-list-item-title>

@@ -6,7 +6,7 @@ const path = require("path");
 
 module.exports = class FileUtil {
   static exists(path) {
-    return fs.access(path, constants.F_OK, (err) => (err ? false : true));
+    return fs.existsSync(path);
   }
 
   static mkdir(dir) {
