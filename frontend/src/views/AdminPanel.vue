@@ -54,6 +54,7 @@
 import Menu from "../components/Menu.vue";
 import Card from "../components/Card.vue";
 import { getAllDocuments } from "../services/Document.service";
+import { getDocumentsByTitle } from "../services/Document.service";
 import { getUser } from "../services/User.service";
 
 export default {
@@ -90,7 +91,17 @@ export default {
   },
   methods: {
     search() {
-      console.log("Buscando:", this.searched_title);
+      const username = this.menu_content.user.username;
+      
+      if (this.searched_title) {
+        getDocumentsByTitle(username, this.searched_title)
+          .then((response) => (this.documents = response.data))
+          .catch((err) => console.error(err.message));
+      } else {
+        getAllDocuments(username)
+          .then((response) => (this.documents = response.data))
+          .catch((err) => console.log(err));
+      }
     },
     clearField() {
       this.searched_title = "";

@@ -54,17 +54,6 @@ export default {
       },
     };
   },
-  created() {
-    const username = sessionStorage.getItem("username");
-    this.menu_content.user.username = username;
-
-    getUser(username)
-      .then((response) => {
-        const picture = response.data.picture;
-        if (picture != undefined) this.menu_content.user.picture = picture;
-      })
-      .catch((err) => console.error(err.message));
-  },
   methods: {
     insertDocument(document) {
       const username = sessionStorage.getItem("username");

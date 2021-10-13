@@ -14,9 +14,12 @@ const updateOwner = (username, newOwner) => httpClient.put(`${END_POINT}/updateo
 
 const deleteDocument = (username, updatedDocuments) => httpClient.patch(`${END_POINT}/delete/${username}`, updatedDocuments);
 
+const getDocumentsByTitle = (username, title) => httpClient.get(`${END_POINT}/${username}/${title}`);
+
 export {
     getAllDocuments,
     insertDocument,
     updateOwner,
-    deleteDocument
+    deleteDocument,
+    getDocumentsByTitle
 };
