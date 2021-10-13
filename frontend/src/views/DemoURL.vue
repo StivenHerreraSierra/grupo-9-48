@@ -63,7 +63,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 #contenedor-demo {
   margin-top: 15%;
 }

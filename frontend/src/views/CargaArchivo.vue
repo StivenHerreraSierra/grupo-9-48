@@ -30,9 +30,8 @@ export default {
     return {
       menu_content: {
         user: {
-          picture:
-            "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwb2JqZWN0c3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          username: "User",
+          picture: null,
+          name: "User",
         },
         items: [
           {
@@ -72,14 +71,28 @@ export default {
 
       insertDocument(username, document)
         .then((response) => (this.info.text = response.data))
-        .catch((err) => this.info.text = err.response.data.message)
+        .catch((err) => (this.info.text = err.response.data.message))
         .finally(() => (this.info.snackbar = true));
     },
+  },
+  created() {
+    const username = sessionStorage.getItem("username");
+    this.menu_content.user.username = username;
+
+    getUser(username)
+      .then((response) => {
+        const picture = response.data.picture;
+        this.menu_content.user.picture =
+          picture == "picture" ? `/${username}/${picture}` : picture;
+      })
+      .catch((err) => console.error(err.message));
+
+    this.username = username;
   },
 };
 </script>
 
-<style scope>
+<style scoped>
 .dark-background {
   background-color: #1c1f20;
 }

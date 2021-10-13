@@ -15,7 +15,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .dark-footer {
   background-color: #1c1f20 !important;
 }
