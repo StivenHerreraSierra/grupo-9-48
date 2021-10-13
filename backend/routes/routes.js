@@ -66,10 +66,10 @@ router.post("/users/validation", UsersController.validateUser);
 router.use("/dictionary/:word", Dictionary.search);
 
 //Documento
+//router.post("/user/documents/insertowner/:username", DocumentsController.insertOwner);
 router.get("/user/documents/:username", DocumentsController.getAll);
 router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insertDocument);
 router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
-router.post("/user/documents/insertowner/:username", DocumentsController.insertOwner);
 router.delete("/user/documents/:username", DocumentsController.deleteOwner);
 router.patch("/user/documents/delete/:username", DocumentsController.deleteDocument);
 
