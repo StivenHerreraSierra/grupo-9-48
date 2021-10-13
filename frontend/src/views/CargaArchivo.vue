@@ -18,7 +18,7 @@ import DocumentChooserForm from "../components/DocumentChooserForm.vue";
 import Menu from "../components/Menu.vue";
 import Snackbar from "../components/Snackbar.vue";
 import { insertDocument } from "../services/Document.service";
-import { getUser } from "../services/User.service";
+import { getUser } from '../services/User.service';
 
 export default {
   components: {
@@ -53,6 +53,17 @@ export default {
         text: "",
       },
     };
+  },
+  created() {
+    const username = sessionStorage.getItem("username");
+    this.menu_content.user.username = username;
+
+    getUser(username)
+      .then((response) => {
+        const picture = response.data.picture;
+        if (picture != undefined) this.menu_content.user.picture = picture;
+      })
+      .catch((err) => console.error(err.message));
   },
   methods: {
     insertDocument(document) {
