@@ -18,6 +18,7 @@ import DocumentChooserForm from "../components/DocumentChooserForm.vue";
 import Menu from "../components/Menu.vue";
 import Snackbar from "../components/Snackbar.vue";
 import { insertDocument } from "../services/Document.service";
+import { getUser } from '../services/User.service';
 
 export default {
   components: {
@@ -29,9 +30,9 @@ export default {
     return {
       menu_content: {
         user: {
-          image:
+          picture:
             "https://images.unsplash.com/photo-1481349518771-20055b2a7b24?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwb2JqZWN0c3xlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-          name: "User",
+          username: "User",
         },
         items: [
           {
@@ -53,6 +54,17 @@ export default {
         text: "",
       },
     };
+  },
+  created() {
+    const username = sessionStorage.getItem("username");
+    this.menu_content.user.username = username;
+
+    getUser(username)
+      .then((response) => {
+        const picture = response.data.picture;
+        if (picture != undefined) this.menu_content.user.picture = picture;
+      })
+      .catch((err) => console.error(err.message));
   },
   methods: {
     insertDocument(document) {

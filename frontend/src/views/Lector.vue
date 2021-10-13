@@ -10,7 +10,7 @@
             type="application/pdf"
             width="100%"
             height="100%"
-          />
+          ></object>
         </v-col>
         <v-col cols="3">
           <v-form

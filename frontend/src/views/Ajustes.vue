@@ -76,7 +76,10 @@ export default {
     this.menu_content.user.username = username;
 
     getUser(username)
-      .then((response) => this.menu_content.user.picture = response.data.picture ? response.data.picture : "../assets/image/user.png")
+      .then((response) => {
+        const picture = response.data.picture;
+        if (picture != undefined) this.menu_content.user.picture = picture;
+      })
       .catch((err) => console.error(err.message));
 
     this.username = username;
