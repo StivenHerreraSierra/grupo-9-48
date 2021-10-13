@@ -19,7 +19,15 @@ module.exports = class DocumentController {
         }
     }
 
-    static async insert(req, res) {
+    static async insert(username) {
+        try {
+            await documentModel.create({owner: username, documents: []});
+        } catch(err) {
+            console.error(err.message);
+        }
+    }
+
+    static async insertDocument(req, res) {
         const username = req.params.username;
 
         try {
