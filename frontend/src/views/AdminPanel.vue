@@ -92,7 +92,7 @@ export default {
   methods: {
     search() {
       const username = this.menu_content.user.username;
-      
+
       if (this.searched_title) {
         getDocumentsByTitle(username, this.searched_title)
           .then((response) => (this.documents = response.data))
