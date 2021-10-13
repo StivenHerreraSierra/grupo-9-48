@@ -75,7 +75,7 @@ module.exports = class DocumentController {
     }
 
     //eliminar insertOwner
-
+    /*
     static async insertOwner(req, res) {
 
         try {
@@ -91,6 +91,7 @@ module.exports = class DocumentController {
         }
 
     }
+    */
 
     static async deleteDocument(req, res) {
 
