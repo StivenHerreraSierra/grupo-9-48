@@ -57,12 +57,11 @@ module.exports = class UsersController {
 
         try {
             const username = req.params.username;
-            const user = req.body;
-            let updatedUser = await usersModel.findOne({ "username": user.username });
+            const newUserName = req.body;            
+            let updatedUser = await usersModel.findOne({ "username": newUserName.username });
             if (updatedUser == null) {
-                updatedUser = await usersModel.findOneAndUpdate({ "username": username }, user, { new: true });
-                if (user.picture.startsWith(`/${updatedUser.username}`))
-                    FileUtil.renameUserFolder(username, updatedUser.username);
+                updatedUser = await usersModel.findOneAndUpdate({ "username": username }, newUserName, { new: true });
+                FileUtil.renameUserFolder(username, updatedUser.username);
                 res.status(200).json({ "username": updatedUser.username });
             } else
                 res.status(403).json({ "message": `${updatedUser.username} is already in use` });
@@ -78,8 +77,7 @@ module.exports = class UsersController {
         try {
             const username = req.params.username;
             const image = req.file.filename;
-            const imagePath = `/${username}/${image}`;
-            const updatedUser = await usersModel.findOneAndUpdate({ "username": username }, { "picture": imagePath }, { new: true });
+            const updatedUser = await usersModel.findOneAndUpdate({ "username": username }, { "picture": image }, { new: true });
             res.status(200).json(updatedUser.picture);
         } catch (err) {
             res.status(400).json({ message: err.message });

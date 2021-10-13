@@ -21,8 +21,15 @@ module.exports = class FileUtil {
     return fullname.split(".").pop();
   }
 
-  static async renameUserFolder(oldUser, newUser) {
+  static renameUserFolder(oldUser, newUser) {
     const root = "resources/";
-    await fs.promises.rename(root + oldUser, root + newUser);
+    fs.access(root + oldUser, constants.F_OK, (err) => {
+      if (!err)
+        fs.promises.rename(root + oldUser, root + newUser);
+    });
+  }
+
+  static async deleteDocument(file) {
+    await fs.promises.unlink('resources' + file);
   }
 };

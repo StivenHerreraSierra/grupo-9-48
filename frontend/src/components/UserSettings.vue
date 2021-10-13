@@ -115,15 +115,7 @@ export default {
       }
       const actualUsername = sessionStorage.getItem("username");
       if (actualUsername != this.userText) {
-        let userPicture = this.userPicture;
-        if (userPicture.startsWith(`/${actualUsername}`))
-          userPicture = userPicture.replace(actualUsername, this.userText);
-        const user = {
-          username: this.userText,
-          picture: userPicture,
-        };
-
-        updateUser(actualUsername, user)
+        updateUser(actualUsername, { username: this.userText })
           .then((response) => {
             sessionStorage.setItem("username", response.data.username);
             this.usernameReadOnly = !this.usernameReadOnly;
@@ -137,7 +129,6 @@ export default {
       this.changeImageBtn.flag = !this.changeImageBtn.flag;
       if (this.changeImageBtn.flag) {
         const actualUsername = sessionStorage.getItem("username");
-        this.userPicture = "";
         const user = new FormData();
         user.append("picture", this.newUserPicture);
         updateUserPicture(actualUsername, user)
@@ -163,17 +154,20 @@ export default {
     },
   },
   mounted() {
-    getUser(sessionStorage.getItem("username"))
+    const username = sessionStorage.getItem("username");
+    getUser(username)
       .then((response) => {
+        const picture = response.data.picture;
         this.userText = response.data.username;
-        this.userPicture = response.data.picture;
+        this.userPicture =
+          picture == "picture" ? `/${username}/${picture}` : picture;
       })
       .catch((err) => console.error(err.response.data.message));
   },
 };
 </script>
 
-<style scope>
+<style scoped>
 #userImage {
   border-radius: 50%;
 }
