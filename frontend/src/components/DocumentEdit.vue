@@ -8,16 +8,26 @@
           color="white"
           dark
           background-color="rgb(48, 41, 41)"
-          v-model="documentName"
+          v-model="documentTxtField"
           hide-details
-          readonly
+          :readonly="!editBtn.flag"
         ></v-text-field>
       </v-col>
       <v-col cols="2" class="d-flex justify-center align-self-center">
-        <v-btn depressed tile color="primary" v-on:click="updateDocument()"
-          >Rename</v-btn
+        <v-btn
+          depressed
+          :block="editBtn.flag"
+          tile
+          :color="editBtn.color"
+          v-on:click="updateDocument()"
+          >{{ editBtn.title }}</v-btn
         >
-        <v-btn depressed tile color="error" v-on:click="deleteDocument()"
+        <v-btn
+          depressed
+          tile
+          color="error"
+          v-on:click="deleteDocument()"
+          v-if="!editBtn.flag"
           >Delete</v-btn
         >
       </v-col>
@@ -29,13 +39,42 @@
 export default {
   props: {
     documentName: String,
+    updateDocumentName: Boolean,
+  },
+  data() {
+    return {
+      editBtn: {
+        flag: false,
+        title: "Rename",
+        color: "primary",
+      },
+      documentTxtField: this.documentName,
+    };
   },
   methods: {
     deleteDocument() {
-      this.$emit("deleteDocument", this.documentName);
+      this.$emit("deleteDocument", this.documentTxtField);
     },
     updateDocument() {
-      this.$emit("deleteDocument", "Test");
+      this.editBtn.flag = !this.editBtn.flag;
+      if (this.editBtn.flag) {
+        this.editBtn.title = "Save";
+        this.editBtn.color = "success";
+      } else {
+        this.editBtn.title = "Rename";
+        this.editBtn.color = "primary";
+        if (this.documentName != this.documentTxtField)
+          this.$emit(
+            "updateDocument",
+            this.documentName,
+            this.documentTxtField
+          );
+      }
+    },
+  },
+  watch: {
+    updateDocumentName: function () {
+      this.documentTxtField = this.documentName;
     },
   },
 };
