@@ -22,6 +22,23 @@ module.exports = class DocumentController {
         }
     }
 
+    static async getByTitle(req, res) {
+        const username = req.params.username;
+
+        if(username) {
+            try {
+                const title = req.params.title;
+                const user = await documentModel.findOne({ owner: username });
+
+                const documents = user.documents.filter(item => item.title.startsWith(title));
+
+                res.status(200).json(documents);
+            } catch(err) {
+                res.status(500).json({"message": err.message});
+            }
+        }
+    }
+
     static async insert(username) {
         try {
             await documentModel.create({owner: username, documents: []});
