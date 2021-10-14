@@ -100,16 +100,15 @@ export default {
       let index = this.documents.findIndex(
         (document) => document.title == newDocumentName
       );
-      if (index != -1)
-        window.alert(`Title ${newDocumentName} is already in use`);
+      if (index != -1) this.updateDocumentList = false;
       else {
         index = this.documents.findIndex(
           (document) => document.title == documentName
         );
         this.documents[index].title = newDocumentName;
         this.sendDocumentInfo();
+        this.updateDocumentList = true;
       }
-      this.updateDocumentList = !this.updateDocumentList;
     },
     sendDocumentInfo(fileDeleted = "") {
       const documentsInfo = {
