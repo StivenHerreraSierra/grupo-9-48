@@ -8,7 +8,7 @@
       origin="center center"
       v-if="documentDuplicated != ''"
     >
-      Title {{ documentDuplicated }} is already in use</v-alert
+      {{ documentDuplicated }} is already in use</v-alert
     >
     <v-row dense class="d-flex justify-center align-self-center">
       <v-col cols="10">
