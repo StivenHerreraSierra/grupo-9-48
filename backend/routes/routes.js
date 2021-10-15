@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
         const extension = FileUtil.getExtension(file.originalname);
         if (extension === 'pdf') {
             if (DocumentsController.validateTitle(req.params.username, req.body.title)) {
-                callback(null, "file_" + file.originalname.replace(/\s/g, ""));
+                callback(null, "file_" + req.body.title.replace(/\s/g, "") + "." + extension);
             }
         } else {
             callback(null, "picture");
@@ -73,7 +73,7 @@ router.get("/user/documents/:username/last/get", DocumentsController.getLastDocu
 router.put("/user/documents/upload/:username", upload.single("file"), DocumentsController.insertDocument);
 router.put("/user/documents/updateowner/:username", DocumentsController.updateOwner);
 router.delete("/user/documents/:username", DocumentsController.deleteOwner);
-router.patch("/user/documents/delete/:username", DocumentsController.deleteDocument);
+router.patch("/user/documents/updatedocuments/:username", DocumentsController.updateDocumentsInfo);
 
 
 module.exports = router;

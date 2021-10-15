@@ -13,10 +13,10 @@ module.exports = class DocumentController {
         if (username) {
             try {
                 const user = await documentModel.findOne({ owner: username });
-                if(user!=null)
+                if (user != null)
                     res.status(200).json(user.documents);
                 else
-                res.status(200).json([]);
+                    res.status(200).json([]);
             } catch (err) {
                 res.status(400).json({ message: err.message });
             }
@@ -28,7 +28,7 @@ module.exports = class DocumentController {
         
         const username = req.params.username;
 
-        if(username) {
+        if (username) {
             try {
                 const title = req.params.title;
                 const user = await documentModel.findOne({ owner: username });
@@ -36,8 +36,8 @@ module.exports = class DocumentController {
                 const documents = user.documents.filter(item => item.title.startsWith(title));
 
                 res.status(200).json(documents);
-            } catch(err) {
-                res.status(500).json({"message": err.message});
+            } catch (err) {
+                res.status(500).json({ "message": err.message });
             }
         }
     }
@@ -62,8 +62,8 @@ module.exports = class DocumentController {
     static async insert(username) {
         console.log("Insert")
         try {
-            await documentModel.create({owner: username, documents: []});
-        } catch(err) {
+            await documentModel.create({ owner: username, documents: [] });
+        } catch (err) {
             console.error(err.message);
         }
     }
@@ -101,12 +101,20 @@ module.exports = class DocumentController {
 
     static async validateTitle(username, title) {
         console.log("Validate")
-        const document = await documentModel.findOne({
-            owner: username,
-            "documents.title": title,
-        });
+        const user = await documentModel.findOne({owner: username});
 
-        return document == null || document == undefined;
+        var exists = false;
+        var documentAux = null;
+        title = title.replace(/\s/g, "");
+        for (let index = 0; index < user.documents.length && !exists; index++) {
+            documentAux = user.documents[index];
+
+            exists = documentAux.file.includes(title);
+        }
+
+        console.log(!exists);
+
+        return !exists;
     }
 
     static async updateOwner(req, res) {
@@ -142,14 +150,14 @@ module.exports = class DocumentController {
     }
     */
 
-    static async deleteDocument(req, res) {
-        console.log("Delete")
+    static async updateDocumentsInfo(req, res) {
 
         try {
             const owner = req.params.username;
             const documents = req.body.documents;
             const fileName = req.body.fileDeleted;
-            FileUtil.deleteDocument(fileName);
+            if (fileName != "")
+                FileUtil.deleteDocument(fileName);
             await documentModel.findOneAndUpdate({ "owner": owner }, { "documents": documents });
             res.status(200).json();
         } catch (err) {

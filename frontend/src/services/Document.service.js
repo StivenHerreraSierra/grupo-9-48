@@ -12,7 +12,7 @@ const insertDocument = (username, document) => httpClient.put(`${END_POINT}/uplo
 
 const updateOwner = (username, newOwner) => httpClient.put(`${END_POINT}/updateowner/${username}`, newOwner);
 
-const deleteDocument = (username, updatedDocuments) => httpClient.patch(`${END_POINT}/delete/${username}`, updatedDocuments);
+const updateDocumentsInfo = (username, updatedDocuments) => httpClient.patch(`${END_POINT}/updatedocuments/${username}`, updatedDocuments);
 
 const getDocumentsByTitle = (username, title) => httpClient.get(`${END_POINT}/${username}/${title}`);
 
@@ -22,7 +22,7 @@ export {
     getAllDocuments,
     insertDocument,
     updateOwner,
-    deleteDocument,
     getDocumentsByTitle,
-    getLastDocuments
+    getLastDocuments,
+    updateDocumentsInfo
 };

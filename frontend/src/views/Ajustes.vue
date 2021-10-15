@@ -13,8 +13,9 @@
         <div v-for="document in documents" :key="document.title">
           <DocumentEdit
             :documentName="document.title"
-            v-on:deleteDocument="removeDocument"
+            v-on:deleteDocument="deleteDocument"
             v-on:updateDocument="updateDocument"
+            :updateDocumentName="updateDocumentList"
           ></DocumentEdit>
         </div>
       </v-container>
@@ -30,7 +31,7 @@ import { getUser } from "../services/User.service";
 
 import {
   getAllDocuments,
-  deleteDocument,
+  updateDocumentsInfo,
   updateOwner,
 } from "../services/Document.service";
 
@@ -62,6 +63,7 @@ export default {
       },
       username: "",
       documents: [],
+      updateDocumentList: false,
     };
   },
   methods: {
@@ -83,7 +85,7 @@ export default {
         .then((res) => (this.username = res.data.owner))
         .catch((err) => console.log(err));
     },
-    removeDocument(documentName) {
+    deleteDocument(documentName) {
       const confirm = window.confirm(
         "Are you sure that you want to delete this document?"
       );
@@ -91,15 +93,29 @@ export default {
         const index = this.documents.findIndex((x) => x.title == documentName);
         const fileDeleted = this.documents[index].file;
         this.documents = this.documents.filter((x) => x.title != documentName);
-        const documentsInfo = {
-          documents: this.documents,
-          fileDeleted: fileDeleted,
-        };
-        deleteDocument(this.username, documentsInfo);
+        this.sendDocumentInfo(fileDeleted);
       }
     },
-    updateDocument(documentName) {
-      console.log(documentName);
+    updateDocument(documentName, newDocumentName) {
+      let index = this.documents.findIndex(
+        (document) => document.title == newDocumentName
+      );
+      if (index != -1) this.updateDocumentList = false;
+      else {
+        index = this.documents.findIndex(
+          (document) => document.title == documentName
+        );
+        this.documents[index].title = newDocumentName;
+        this.sendDocumentInfo();
+        this.updateDocumentList = true;
+      }
+    },
+    sendDocumentInfo(fileDeleted = "") {
+      const documentsInfo = {
+        documents: this.documents,
+        fileDeleted: fileDeleted,
+      };
+      updateDocumentsInfo(this.username, documentsInfo);
     },
   },
   watch: {
