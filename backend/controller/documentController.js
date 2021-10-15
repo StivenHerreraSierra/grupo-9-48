@@ -105,11 +105,11 @@ module.exports = class DocumentController {
 
         var exists = false;
         var documentAux = null;
-        title = title.replace(/\s/g, "");
+        var titleAux = title.replace(/\s/g, "");
         for (let index = 0; index < user.documents.length && !exists; index++) {
             documentAux = user.documents[index];
 
-            exists = documentAux.file.includes(title);
+            exists = documentAux.title.includes(title) || documentAux.file.includes(titleAux);
         }
 
         console.log(!exists);
