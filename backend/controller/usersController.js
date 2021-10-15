@@ -1,5 +1,6 @@
 const usersModel = require("../models/users");
 const FileUtil = require("../models/utilities/FileUtil");
+const DocumentsController = require("../controller/documentController");
 
 module.exports = class UsersController {
 
@@ -44,6 +45,12 @@ module.exports = class UsersController {
                 res.status(403).json({ "message": `${user.username} is already in use` });
             } else {
                 newUser = await usersModel.create(user);
+                const dir = "./resources/" + user.username;
+                if (!FileUtil.exists(dir)) {
+                    DocumentsController.insert(user.username);
+                    FileUtil.mkdir(dir);
+                    console.log("Creó un directorio");
+                }
                 res.status(201).json({ "username": user.username });
             }
 
@@ -57,7 +64,7 @@ module.exports = class UsersController {
 
         try {
             const username = req.params.username;
-            const newUserName = req.body;            
+            const newUserName = req.body;
             let updatedUser = await usersModel.findOne({ "username": newUserName.username });
             if (updatedUser == null) {
                 updatedUser = await usersModel.findOneAndUpdate({ "username": username }, newUserName, { new: true });

@@ -69,6 +69,7 @@ export default {
   methods: {
     checkUsername() {
       const newUsername = sessionStorage.getItem("username");
+      this.menu_content.user.username = newUsername;
 
       this.documents = this.documents.map((document) => {
         let fileName = document.file.substring(this.username.length + 1);
