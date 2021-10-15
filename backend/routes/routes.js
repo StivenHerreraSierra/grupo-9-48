@@ -20,12 +20,6 @@ const multer = require("multer");
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
         const dir = "./resources/" + req.params.username;
-        if( !FileUtil.exists(dir) ) {
-            DocumentsController.insert(req.params.username);
-            FileUtil.mkdir(dir);
-            console.log("Creó un directorio");
-        }
-
         callback(null, dir);
     },
     filename: (req, file, callback) => {

@@ -10,11 +10,7 @@ module.exports = class FileUtil {
   }
 
   static mkdir(dir) {
-    fs.mkdir(
-      path.join(dir),
-      { recursive: true },
-      (err) => (err ? console.log("Error: ", err) : console.log("Uploaded"))
-    );
+    fs.mkdirSync(path.join(dir), { recursive: true });
   }
 
   static getExtension(fullname) {
@@ -23,13 +19,11 @@ module.exports = class FileUtil {
 
   static renameUserFolder(oldUser, newUser) {
     const root = "resources/";
-    fs.access(root + oldUser, constants.F_OK, (err) => {
-      if (!err)
-        fs.promises.rename(root + oldUser, root + newUser);
-    });
+    if (this.exists(root + oldUser))
+      fs.renameSync(root + oldUser, root + newUser);
   }
 
-  static async deleteDocument(file) {
-    await fs.promises.unlink('resources' + file);
+  static deleteDocument(file) {
+    fs.unlinkSync('resources' + file);
   }
 };
