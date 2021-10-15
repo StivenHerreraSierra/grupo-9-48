@@ -74,62 +74,54 @@ module.exports = class DocumentController {
 
         try {
             const title = req.body.title;
-
-            const filename = req.file.filename;
-
-
+            let filename = req.file.filename
             //Como la función validateTitle es asíncrona y se necesita que termine de ejecutar para obtener el resultado, se usa await.
-            if (await DocumentController.validateTitle(username, title)) {
-                if (await DocumentController.validateFile(username, filename)) {
-                    await documentModel.updateOne(
-                        { owner: username },
-                        {
-                            $push: {
-                                documents: {
-                                    title: title,
-                                    file: "/" + username + "/" + filename,
-                                    lastOpenDate: req.body.date,
-                                },
+            
+            const checkTitle = await DocumentController.validateTitle(username, title, filename);
+
+            if (checkTitle == 0) {
+
+                await documentModel.updateOne(
+                    { owner: username },
+                    {
+                        $push: {
+                            documents: {
+                                title: title,
+                                file: "/" + username + "/" + filename,
+                                lastOpenDate: req.body.date,
                             },
-                        }
-                    );
+                        },
+                    }
+                );
 
-                    res.status(201).json(title + " was added");
-                } else {
-                    res.status(403).json({ "message": filename.substring("file_".length) + " already exists" });
-                }
-
+                res.status(201).json(title + " was added");
             } else {
-                res.status(403).json({ "message": title + " is already in use" });
+                filename = filename.substring("file_".length);
+                const errorMessage = checkTitle == 1 ? `${title} is already in use` : `${filename} already exists`;
+                res.status(403).json({ "message": errorMessage });
             }
+
         } catch (error) {
             res.status(400).json({ "message": error.message });
         }
     }
 
-    static async validateTitle(username, title) {
-        console.log("Validate")
+    static async validateTitle(username, title, filename) {
+        console.log("Validate");
         const user = await documentModel.findOne({ owner: username });
 
-        var exists = false;
-        var documentAux = null;
-        var titleAux = title.replace(/\s/g, "");
-        for (let index = 0; index < user.documents.length && !exists; index++) {
-            documentAux = user.documents[index];
+        if (user == null)
+            return 0;
 
-            exists = documentAux.title.includes(title) || documentAux.file.includes(titleAux);
+        for (let index = 0; index < user.documents.length; index++) {
+
+            if (title != "" && user.documents[index].title.includes(title))
+                return 1;
+            if (user.documents[index].file.includes(filename))
+                return 2;
         }
 
-        console.log(!exists);
-
-        return !exists;
-    }
-
-    static async validateFile(username, file) {
-        const user = await documentModel.findOne({ owner: username });
-        file = `/${username}/${file}`;        
-        const index = user.documents.findIndex((document) => document.file == file);
-        return index == -1;
+        return 0;
     }
 
     static async updateOwner(req, res) {
