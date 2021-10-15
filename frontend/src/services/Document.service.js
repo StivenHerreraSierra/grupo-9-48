@@ -16,10 +16,13 @@ const updateDocumentsInfo = (username, updatedDocuments) => httpClient.patch(`${
 
 const getDocumentsByTitle = (username, title) => httpClient.get(`${END_POINT}/${username}/${title}`);
 
+const getLastDocuments = (username) => httpClient.get(`${END_POINT}/${username}/last/get`);
+
 export {
     getAllDocuments,
     insertDocument,
     updateOwner,
-    updateDocumentsInfo,
-    getDocumentsByTitle
+    getDocumentsByTitle,
+    getLastDocuments,
+    updateDocumentsInfo
 };
