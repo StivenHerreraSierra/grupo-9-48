@@ -11,7 +11,7 @@
         </v-layout>
 
         <v-row>
-          <v-col v-for="document in documents" :key="document.title">
+          <v-col v-for="document in lastDocuments" :key="document.title">
             <Card :document="document"></Card>
           </v-col>
         </v-row>
@@ -55,6 +55,7 @@ import Menu from "../components/Menu.vue";
 import Card from "../components/Card.vue";
 import { getAllDocuments } from "../services/Document.service";
 import { getDocumentsByTitle } from "../services/Document.service";
+import { getLastDocuments } from "../services/Document.service";
 import { getUser } from "../services/User.service";
 
 export default {
@@ -84,6 +85,7 @@ export default {
       },
 
       documents: [],
+      lastDocuments: [],
 
       searched_title: "",
       marker: true,
@@ -122,6 +124,10 @@ export default {
     getAllDocuments(username)
       .then((response) => (this.documents = response.data))
       .catch((err) => console.log(err));
+
+    getLastDocuments(username)
+      .then((response) => this.lastDocuments = response.data)
+      .catch((err) => console.error(err.message));
   },
   beforeRouteEnter(to, from, next) {
     if (sessionStorage.getItem("username") == null) next("/404");
