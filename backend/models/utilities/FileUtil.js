@@ -19,7 +19,7 @@ module.exports = class FileUtil {
 
   static renameUserFolder(oldUser, newUser) {
     const root = "resources/";
-    if (this.exists(root + oldUser))
+    if (FileUtil.exists(root + oldUser))
       fs.renameSync(root + oldUser, root + newUser);
   }
 

@@ -25,7 +25,7 @@ module.exports = class DocumentController {
 
     static async getByTitle(req, res) {
         console.log("titulo");
-        
+
         const username = req.params.username;
 
         if (username) {
@@ -46,15 +46,15 @@ module.exports = class DocumentController {
         console.log("últimos");
         const username = req.params.username;
 
-        if(username) {
+        if (username) {
             try {
                 const user = await documentModel.findOne({ owner: username });
 
                 const documents = user.documents.slice(-5);
 
                 res.status(200).json(documents);
-            } catch(err) {
-                res.status(500).json({"message": err.message});
+            } catch (err) {
+                res.status(500).json({ "message": err.message });
             }
         }
     }
@@ -75,22 +75,30 @@ module.exports = class DocumentController {
         try {
             const title = req.body.title;
 
+            const filename = req.file.filename;
+
+
             //Como la función validateTitle es asíncrona y se necesita que termine de ejecutar para obtener el resultado, se usa await.
             if (await DocumentController.validateTitle(username, title)) {
-                await documentModel.updateOne(
-                    { owner: username },
-                    {
-                        $push: {
-                            documents: {
-                                title: title,
-                                file: "/" + username + "/" + req.file.filename,
-                                lastOpenDate: req.body.date,
+                if (await DocumentController.validateFile(username, filename)) {
+                    await documentModel.updateOne(
+                        { owner: username },
+                        {
+                            $push: {
+                                documents: {
+                                    title: title,
+                                    file: "/" + username + "/" + filename,
+                                    lastOpenDate: req.body.date,
+                                },
                             },
-                        },
-                    }
-                );
+                        }
+                    );
 
-                res.status(201).json(title + " was added");
+                    res.status(201).json(title + " was added");
+                } else {
+                    res.status(403).json({ "message": filename.substring("file_".length) + " already exists" });
+                }
+
             } else {
                 res.status(403).json({ "message": title + " is already in use" });
             }
@@ -101,7 +109,7 @@ module.exports = class DocumentController {
 
     static async validateTitle(username, title) {
         console.log("Validate")
-        const user = await documentModel.findOne({owner: username});
+        const user = await documentModel.findOne({ owner: username });
 
         var exists = false;
         var documentAux = null;
@@ -115,6 +123,13 @@ module.exports = class DocumentController {
         console.log(!exists);
 
         return !exists;
+    }
+
+    static async validateFile(username, file) {
+        const user = await documentModel.findOne({ owner: username });
+        file = `/${username}/${file}`;        
+        const index = user.documents.findIndex((document) => document.file == file);
+        return index == -1;
     }
 
     static async updateOwner(req, res) {
